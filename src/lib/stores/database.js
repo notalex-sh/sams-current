@@ -9,7 +9,8 @@ export const isDirty = writable(false);
 export const entries = writable([]);
 export const searchQuery = writable('');
 export const selectedTag = writable('');
-export const activeTab = writable('all'); 
+export const activeTab = writable('all');
+export const sortBy = writable('newest'); // newest, oldest, title, expiry
 export const isProcessing = writable(false);
 export const processingMessage = writable('');
 
@@ -21,8 +22,8 @@ export const config = writable({
 });
 
 export const filteredEntries = derived(
-  [entries, searchQuery, selectedTag, activeTab],
-  ([$entries, $searchQuery, $selectedTag, $activeTab]) => {
+  [entries, searchQuery, selectedTag, activeTab, sortBy],
+  ([$entries, $searchQuery, $selectedTag, $activeTab, $sortBy]) => {
     let filtered = [...$entries];
 
     if ($activeTab === 'logins') {
@@ -39,7 +40,7 @@ export const filteredEntries = derived(
         return daysUntilExpiry <= 14 && daysUntilExpiry >= 0;
       });
     }
-    
+
     if ($searchQuery) {
       const query = $searchQuery.toLowerCase();
       filtered = filtered.filter(entry =>
@@ -50,15 +51,35 @@ export const filteredEntries = derived(
         (entry.tags && entry.tags.some(tag => tag.toLowerCase().includes(query)))
       );
     }
-    
+
     // Tag filtering
     if ($selectedTag) {
-      filtered = filtered.filter(entry => 
+      filtered = filtered.filter(entry =>
         entry.tags && entry.tags.includes($selectedTag)
       );
     }
-    
-    return filtered.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+    // Sorting
+    const now = new Date();
+    return filtered.sort((a, b) => {
+      switch ($sortBy) {
+        case 'oldest':
+          return new Date(a.createdAt) - new Date(b.createdAt);
+        case 'title':
+          return a.title.localeCompare(b.title);
+        case 'expiry':
+          // Sort by expiry date (soonest first), never-expire entries at the end
+          const getExpiryDays = (entry) => {
+            if (!entry.hasPassword || !entry.passwordSetDate || entry.expiryDays === 0) return Infinity;
+            const expiryDate = addDays(new Date(entry.passwordSetDate), entry.expiryDays ?? 90);
+            return differenceInDays(expiryDate, now);
+          };
+          return getExpiryDays(a) - getExpiryDays(b);
+        case 'newest':
+        default:
+          return new Date(b.createdAt) - new Date(a.createdAt);
+      }
+    });
   }
 );
 
@@ -229,6 +250,40 @@ export function logout() {
   searchQuery.set('');
   selectedTag.set('');
   activeTab.set('all');
+  sortBy.set('newest');
   isProcessing.set(false);
   processingMessage.set('');
+}
+
+// Check for duplicate entries by URL or title+username combination
+export function findDuplicates(title, url, username) {
+  const currentEntries = get(entries);
+  const duplicates = [];
+
+  for (const entry of currentEntries) {
+    // Check URL match (if both have URLs)
+    if (url && entry.url) {
+      try {
+        const newUrl = new URL(url).hostname.toLowerCase();
+        const existingUrl = new URL(entry.url).hostname.toLowerCase();
+        if (newUrl === existingUrl) {
+          duplicates.push({ entry, reason: 'Same URL' });
+          continue;
+        }
+      } catch {
+        // Invalid URLs, skip URL comparison
+      }
+    }
+
+    // Check title + username match
+    if (title && entry.title.toLowerCase() === title.toLowerCase()) {
+      if (username && entry.username && entry.username.toLowerCase() === username.toLowerCase()) {
+        duplicates.push({ entry, reason: 'Same title and username' });
+      } else if (!username && !entry.username) {
+        duplicates.push({ entry, reason: 'Same title' });
+      }
+    }
+  }
+
+  return duplicates;
 }

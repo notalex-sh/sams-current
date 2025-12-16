@@ -48,23 +48,23 @@
   </title>
 </svelte:head>
 
-<div class="relative z-10 min-h-screen flex flex-col">
+<div class="relative z-10 h-screen flex flex-col overflow-hidden">
   <!-- Header -->
-  <header class="relative border-b border-white/10 bg-black/95 backdrop-blur-sm navbar-load">
-    <div class="container mx-auto px-4 py-5">
+  <header class="relative border-b border-white/10 bg-black/95 backdrop-blur-sm navbar-load flex-shrink-0">
+    <div class="container mx-auto px-4 py-4">
       <div class="flex items-center justify-between">
         <div class="flex items-center gap-4">
           <div>
-            <h1 class="text-3xl font-bold tracking-[0.3em] text-white">
+            <h1 class="text-2xl font-bold tracking-[0.3em] text-white">
               S.A.M.S
             </h1>
-            <p class="text-xs uppercase tracking-[0.3em] text-white/30 mt-1">
+            <p class="text-[10px] uppercase tracking-[0.3em] text-white/30 mt-0.5">
               Secure Access Management System
             </p>
           </div>
 
           {#if $currentDatabase}
-            <div class="text-sm text-white/50">
+            <div class="text-xs text-white/50">
               <span class="text-white/20">[</span>
               {$currentDatabase}
               {#if $isDirty}
@@ -75,7 +75,7 @@
           {/if}
         </div>
 
-        <div class="flex items-center gap-2 text-sm uppercase tracking-widest">
+        <div class="flex items-center gap-2 text-xs uppercase tracking-widest">
           <span class={$isAuthenticated ? 'text-white' : 'text-white/30'}>
             {$isAuthenticated ? 'AUTHENTICATED' : 'LOCKED'}
           </span>
@@ -91,7 +91,7 @@
     <Navbar on:action={handleNavAction} />
   {/if}
 
-  <main class="flex-1 container mx-auto px-4 py-6 fade-in">
+  <main class="flex-1 container mx-auto px-4 py-4 fade-in min-h-0 overflow-hidden">
     {#if !$isAuthenticated}
       <LoginPanel on:notify={(e) => notify(e.detail)} />
     {:else}
@@ -100,9 +100,9 @@
   </main>
 
   <!-- Footer -->
-  <footer class="border-t border-white/10 py-4">
+  <footer class="border-t border-white/10 py-2 flex-shrink-0">
     <div class="container mx-auto px-4">
-      <p class="text-center text-xs text-white/20 uppercase tracking-wider">
+      <p class="text-center text-[10px] text-white/20 uppercase tracking-wider">
         AES-256-GCM | Argon2 | Local Encryption Only
       </p>
     </div>
