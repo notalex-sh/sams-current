@@ -10,7 +10,7 @@ export const entries = writable([]);
 export const searchQuery = writable('');
 export const selectedTag = writable('');
 export const activeTab = writable('all');
-export const sortBy = writable('newest'); // newest, oldest, title, expiry
+export const sortBy = writable('newest');
 export const isProcessing = writable(false);
 export const processingMessage = writable('');
 
@@ -34,7 +34,7 @@ export const filteredEntries = derived(
       const now = new Date();
       filtered = filtered.filter(e => {
         if (!e.hasPassword || !e.passwordSetDate) return false;
-        if (e.expiryDays === 0) return false; // Never expires
+        if (e.expiryDays === 0) return false;
         const expiryDate = addDays(new Date(e.passwordSetDate), e.expiryDays ?? 90);
         const daysUntilExpiry = differenceInDays(expiryDate, now);
         return daysUntilExpiry <= 14 && daysUntilExpiry >= 0;
@@ -52,14 +52,10 @@ export const filteredEntries = derived(
       );
     }
 
-    // Tag filtering
     if ($selectedTag) {
-      filtered = filtered.filter(entry =>
-        entry.tags && entry.tags.includes($selectedTag)
-      );
+      filtered = filtered.filter(entry => entry.tags && entry.tags.includes($selectedTag));
     }
 
-    // Sorting
     const now = new Date();
     return filtered.sort((a, b) => {
       switch ($sortBy) {
@@ -68,7 +64,6 @@ export const filteredEntries = derived(
         case 'title':
           return a.title.localeCompare(b.title);
         case 'expiry':
-          // Sort by expiry date (soonest first), never-expire entries at the end
           const getExpiryDays = (entry) => {
             if (!entry.hasPassword || !entry.passwordSetDate || entry.expiryDays === 0) return Infinity;
             const expiryDate = addDays(new Date(entry.passwordSetDate), entry.expiryDays ?? 90);
@@ -86,9 +81,7 @@ export const filteredEntries = derived(
 export const allTags = derived(entries, ($entries) => {
   const tags = new Set();
   $entries.forEach(entry => {
-    if (entry.tags) {
-      entry.tags.forEach(tag => tags.add(tag));
-    }
+    if (entry.tags) entry.tags.forEach(tag => tags.add(tag));
   });
   return Array.from(tags).sort();
 });
@@ -97,23 +90,23 @@ export const stats = derived(entries, ($entries) => {
   const total = $entries.length;
   const logins = $entries.filter(e => e.hasPassword).length;
   const bookmarks = $entries.filter(e => !e.hasPassword).length;
-  
   const now = new Date();
+
   const expiring = $entries.filter(e => {
     if (!e.hasPassword || !e.passwordSetDate) return false;
-    if (e.expiryDays === 0) return false; // Never expires
+    if (e.expiryDays === 0) return false;
     const expiryDate = addDays(new Date(e.passwordSetDate), e.expiryDays ?? 90);
     const daysUntilExpiry = differenceInDays(expiryDate, now);
     return daysUntilExpiry <= 14 && daysUntilExpiry >= 0;
   }).length;
-  
+
   const expired = $entries.filter(e => {
     if (!e.hasPassword || !e.passwordSetDate) return false;
-    if (e.expiryDays === 0) return false; // Never expires
+    if (e.expiryDays === 0) return false;
     const expiryDate = addDays(new Date(e.passwordSetDate), e.expiryDays ?? 90);
     return isAfter(now, expiryDate);
   }).length;
-  
+
   return { total, logins, bookmarks, expiring, expired };
 });
 
@@ -124,7 +117,7 @@ export function addEntry(entry) {
       id: Date.now(),
       createdAt: new Date().toISOString(),
       passwordSetDate: entry.password ? new Date().toISOString() : null,
-      expiryDays: entry.expiryDays ?? 0, // Default to never expire
+      expiryDays: entry.expiryDays ?? 0,
       hasPassword: !!(entry.username || entry.password)
     };
     isDirty.set(true);
@@ -159,34 +152,27 @@ export function deleteEntry(id) {
 }
 
 export function regeneratePassword(id, newPassword) {
-  updateEntry(id, {
-    password: newPassword,
-    passwordSetDate: new Date().toISOString()
-  });
+  updateEntry(id, { password: newPassword, passwordSetDate: new Date().toISOString() });
 }
 
 export async function saveDatabase() {
   const pwd = get(masterPassword);
   if (!pwd) throw new Error('No master password set');
-  
+
   isProcessing.set(true);
   processingMessage.set('Encrypting database...');
-  
+
   try {
     const entriesData = get(entries);
-    
     const encryptedBlob = await encryptData(entriesData, pwd);
     const blob = new Blob([encryptedBlob], { type: 'application/octet-stream' });
-    
     const configData = get(config);
-    
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
     a.download = get(currentDatabase) || configData.dbFilename;
     a.click();
     URL.revokeObjectURL(url);
-    
     isDirty.set(false);
   } finally {
     isProcessing.set(false);
@@ -197,12 +183,10 @@ export async function saveDatabase() {
 export async function loadDatabase(file, password) {
   isProcessing.set(true);
   processingMessage.set('Decrypting database...');
-  
+
   try {
     const encryptedBlob = await file.arrayBuffer();
-    
     const decrypted = await decryptData(encryptedBlob, password);
-
     const normalizedEntries = decrypted.map(entry => ({
       ...entry,
       tags: entry.tags || [],
@@ -213,7 +197,6 @@ export async function loadDatabase(file, password) {
       expiryDays: entry.expiryDays ?? 90,
       hasPassword: !!(entry.username || entry.password)
     }));
-    
     entries.set(normalizedEntries);
     currentDatabase.set(file.name);
     masterPassword.set(password);
@@ -228,13 +211,13 @@ export async function loadDatabase(file, password) {
 export async function createNewDatabase(password) {
   isProcessing.set(true);
   processingMessage.set('Initializing database...');
-  
+
   try {
     entries.set([]);
     currentDatabase.set(null);
     masterPassword.set(password);
     isAuthenticated.set(true);
-    isDirty.set(true); 
+    isDirty.set(true);
   } finally {
     isProcessing.set(false);
     processingMessage.set('');
@@ -255,13 +238,11 @@ export function logout() {
   processingMessage.set('');
 }
 
-// Check for duplicate entries by URL or title+username combination
 export function findDuplicates(title, url, username) {
   const currentEntries = get(entries);
   const duplicates = [];
 
   for (const entry of currentEntries) {
-    // Check URL match (if both have URLs)
     if (url && entry.url) {
       try {
         const newUrl = new URL(url).hostname.toLowerCase();
@@ -270,12 +251,9 @@ export function findDuplicates(title, url, username) {
           duplicates.push({ entry, reason: 'Same URL' });
           continue;
         }
-      } catch {
-        // Invalid URLs, skip URL comparison
-      }
+      } catch {}
     }
 
-    // Check title + username match
     if (title && entry.title.toLowerCase() === title.toLowerCase()) {
       if (username && entry.username && entry.username.toLowerCase() === username.toLowerCase()) {
         duplicates.push({ entry, reason: 'Same title and username' });
