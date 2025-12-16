@@ -80,10 +80,7 @@
             {$isAuthenticated ? 'AUTHENTICATED' : 'LOCKED'}
           </span>
           <div
-            class="w-2 h-2 rounded-full"
-            class:bg-white={$isAuthenticated}
-            class:bg-white/30={!$isAuthenticated}
-            class:unsaved-indicator={$isAuthenticated}
+            class="w-2 h-2 rounded-full {$isAuthenticated ? 'bg-white unsaved-indicator' : 'bg-white/30'}"
           ></div>
         </div>
       </div>
