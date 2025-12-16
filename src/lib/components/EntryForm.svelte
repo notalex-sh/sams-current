@@ -1,11 +1,11 @@
 <script>
-  import { createEventDispatcher } from 'svelte';
+  import { createEventDispatcher, onMount } from 'svelte';
   import { addEntry } from '$lib/stores/database';
   import { generatePassword, calculatePasswordStrength } from '$lib/utils/encryption';
   import PasswordStrengthMeter from './PasswordStrengthMeter.svelte';
-  
+
   const dispatch = createEventDispatcher();
-  
+
   let title = '';
   let url = '';
   let username = '';
@@ -15,9 +15,9 @@
   let notes = '';
   let expiryWeeks = 0;
   let expiryDaysInput = 0;
-  let neverExpire = true; // Default to never expire
-  let showPasswordInput = false; // Toggle for password visibility
-  
+  let neverExpire = true;
+  let showPasswordInput = false;
+
   $: expiryDays = neverExpire ? 0 : (expiryWeeks || 0) * 7 + (expiryDaysInput || 0);
 
   let passLength = 16;
@@ -25,12 +25,16 @@
   let useLower = true;
   let useNumbers = true;
   let useSymbols = true;
-  
+
   let showPasswordPreview = false;
   let generatedPassword = '';
 
   $: passwordStrength = calculatePasswordStrength(password);
-  
+
+  onMount(() => {
+    dispatch('mounted');
+  });
+
   function handleGeneratePassword() {
     generatedPassword = generatePassword({
       length: passLength,
@@ -53,7 +57,7 @@
       dispatch('notify', 'Title required');
       return;
     }
-    
+
     const entry = {
       title,
       url,
@@ -64,7 +68,7 @@
       notes,
       expiryDays
     };
-    
+
     addEntry(entry);
 
     // Reset form
@@ -77,48 +81,48 @@
     notes = '';
     expiryWeeks = 0;
     expiryDaysInput = 0;
-    neverExpire = true; // Reset to default
+    neverExpire = true;
     generatedPassword = '';
     showPasswordPreview = false;
     showPasswordInput = false;
-    
+
     dispatch('notify', 'Entry created');
   }
 </script>
 
-<div class="card">
-  <h3 class="mb-4 text-base font-mono uppercase tracking-[0.2em] text-cyan-400">
-    NEW ENTRY
+<div class="cyber-border p-5">
+  <h3 class="mb-5 text-sm font-semibold uppercase tracking-[0.2em] text-white">
+    New Entry
   </h3>
-  
+
   <div class="space-y-3">
     <div>
       <input
         type="text"
         bind:value={title}
         placeholder="TITLE *"
-        class="input-field"
+        class="mono-input"
       />
     </div>
-    
+
     <div>
       <input
         type="url"
         bind:value={url}
         placeholder="URL"
-        class="input-field"
+        class="mono-input"
       />
     </div>
-    
+
     <div>
       <input
         type="text"
         bind:value={username}
         placeholder="USERNAME"
-        class="input-field"
+        class="mono-input"
       />
     </div>
-    
+
     <div>
       <div class="relative">
         {#if showPasswordInput}
@@ -126,19 +130,19 @@
             type="text"
             bind:value={password}
             placeholder="PASSWORD"
-            class="input-field pr-20"
+            class="mono-input pr-16"
           />
         {:else}
           <input
             type="password"
             bind:value={password}
             placeholder="PASSWORD"
-            class="input-field pr-20"
+            class="mono-input pr-16"
           />
         {/if}
         <button
           type="button"
-          class="absolute right-2 top-1/2 -translate-y-1/2 text-xs font-mono text-gray-500 hover:text-cyan-400 transition-colors px-2 py-1"
+          class="absolute right-2 top-1/2 -translate-y-1/2 text-xs text-white/40 hover:text-white transition-colors px-2 py-1"
           on:click={() => showPasswordInput = !showPasswordInput}
         >
           {showPasswordInput ? 'HIDE' : 'SHOW'}
@@ -148,11 +152,11 @@
         <PasswordStrengthMeter strength={passwordStrength} />
       {/if}
     </div>
-    
-    <div class="border-t border-gray-900 pt-3 space-y-3">
+
+    <div class="border-t border-white/10 pt-4 space-y-3">
       <div class="flex items-center justify-between">
-        <label for="passLength" class="text-xs font-mono uppercase tracking-wider text-gray-500">
-          Password Length
+        <label for="passLength" class="text-xs uppercase tracking-wider text-white/40">
+          Length
         </label>
         <div class="flex items-center gap-2">
           <input
@@ -161,138 +165,140 @@
             bind:value={passLength}
             min="8"
             max="64"
-            class="input-field w-16 py-1 text-center"
+            class="mono-input w-16 py-1 text-center"
           />
-          <span class="text-xs font-mono text-gray-500">chars</span>
+          <span class="text-xs text-white/40">chars</span>
         </div>
       </div>
-      
+
       <div>
-        <div class="text-xs font-mono uppercase tracking-wider text-gray-500 mb-2">Character Types</div>
-        <div class="grid grid-cols-2 sm:grid-cols-4 gap-x-4 gap-y-2 text-sm font-mono">
-          <label class="flex items-center gap-2 text-gray-400 hover:text-cyan-400 cursor-pointer">
-            <input type="checkbox" bind:checked={useUpper} class="custom-checkbox" />
+        <div class="text-xs uppercase tracking-wider text-white/40 mb-2">Character Types</div>
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-x-4 gap-y-2 text-sm">
+          <label class="flex items-center gap-2 text-white/60 hover:text-white cursor-pointer transition-colors">
+            <input type="checkbox" bind:checked={useUpper} class="mono-checkbox" />
             <span>A-Z</span>
           </label>
-          <label class="flex items-center gap-2 text-gray-400 hover:text-cyan-400 cursor-pointer">
-            <input type="checkbox" bind:checked={useLower} class="custom-checkbox" />
+          <label class="flex items-center gap-2 text-white/60 hover:text-white cursor-pointer transition-colors">
+            <input type="checkbox" bind:checked={useLower} class="mono-checkbox" />
             <span>a-z</span>
           </label>
-          <label class="flex items-center gap-2 text-gray-400 hover:text-cyan-400 cursor-pointer">
-            <input type="checkbox" bind:checked={useNumbers} class="custom-checkbox" />
+          <label class="flex items-center gap-2 text-white/60 hover:text-white cursor-pointer transition-colors">
+            <input type="checkbox" bind:checked={useNumbers} class="mono-checkbox" />
             <span>0-9</span>
           </label>
-          <label class="flex items-center gap-2 text-gray-400 hover:text-cyan-400 cursor-pointer">
-            <input type="checkbox" bind:checked={useSymbols} class="custom-checkbox" />
+          <label class="flex items-center gap-2 text-white/60 hover:text-white cursor-pointer transition-colors">
+            <input type="checkbox" bind:checked={useSymbols} class="mono-checkbox" />
             <span>!@#</span>
           </label>
         </div>
       </div>
-      
+
       <button
-        class="btn w-full"
+        class="mono-button-secondary w-full py-2"
         on:click={handleGeneratePassword}
       >
-        GENERATE
+        Generate
       </button>
-      
+
       {#if showPasswordPreview && generatedPassword}
-        <div class="mt-3 border border-cyan-400/20 bg-gray-950 p-3 animate-slide-up">
-          <div class="mb-2 text-xs font-mono uppercase tracking-wider text-gray-600">
+        <div class="mt-3 border border-white/20 bg-black p-3 fade-in">
+          <div class="mb-2 text-xs uppercase tracking-wider text-white/40">
             Preview
           </div>
-          <div class="break-all font-mono text-sm text-cyan-300">
+          <div class="break-all text-sm text-white font-medium">
             {generatedPassword}
           </div>
           <div class="mt-3 flex gap-2">
             <button
-              class="btn btn-primary flex-1 text-xs py-1"
+              class="mono-button flex-1 text-xs py-1.5"
               on:click={useGeneratedPassword}
             >
-              USE
+              Use
             </button>
             <button
-              class="btn flex-1 text-xs py-1"
+              class="mono-button-secondary flex-1 text-xs py-1.5"
               on:click={handleGeneratePassword}
             >
-              NEW
+              New
             </button>
             <button
-              class="btn flex-1 text-xs py-1"
+              class="mono-button-secondary flex-1 text-xs py-1.5"
               on:click={() => {
                 navigator.clipboard.writeText(generatedPassword);
                 dispatch('notify', 'Copied');
               }}
             >
-              COPY
+              Copy
             </button>
           </div>
         </div>
       {/if}
     </div>
-    
-    <div class="border-t border-gray-900 pt-3">
-      <div class="flex items-center gap-3">
-        <label class="flex items-center gap-2 text-xs font-mono text-gray-400 hover:text-cyan-400 cursor-pointer">
+
+    <div class="border-t border-white/10 pt-4">
+      <div class="flex items-center gap-3 flex-wrap">
+        <label class="flex items-center gap-2 text-xs text-white/60 hover:text-white cursor-pointer transition-colors">
           <input
             type="checkbox"
             bind:checked={neverExpire}
-            class="custom-checkbox"
+            class="mono-checkbox"
           />
           <span>Never expire</span>
         </label>
         {#if !neverExpire}
-          <input
-            type="number"
-            bind:value={expiryWeeks}
-            min="0"
-            class="input-field w-full text-center py-1"
-          />
-          <span class="text-xs font-mono text-gray-400">weeks</span>
-          <input
-            type="number"
-            bind:value={expiryDaysInput}
-            min="0"
-            max="6"
-            class="input-field w-full text-center py-1"
-          />
-          <span class="text-xs font-mono text-gray-400">days</span>
+          <div class="flex items-center gap-2">
+            <input
+              type="number"
+              bind:value={expiryWeeks}
+              min="0"
+              class="mono-input w-16 text-center py-1"
+            />
+            <span class="text-xs text-white/40">weeks</span>
+            <input
+              type="number"
+              bind:value={expiryDaysInput}
+              min="0"
+              max="6"
+              class="mono-input w-16 text-center py-1"
+            />
+            <span class="text-xs text-white/40">days</span>
+          </div>
         {/if}
       </div>
     </div>
-    
+
     <div>
       <input
         type="url"
         bind:value={docsUrl}
         placeholder="DOCUMENTATION URL"
-        class="input-field"
+        class="mono-input"
       />
     </div>
-    
+
     <div>
       <input
         type="text"
         bind:value={tags}
         placeholder="TAGS (COMMA SEPARATED)"
-        class="input-field"
+        class="mono-input"
       />
     </div>
-    
+
     <div>
       <textarea
         bind:value={notes}
         placeholder="NOTES"
         rows="2"
-        class="input-field resize-none"
+        class="mono-input resize-none"
       />
     </div>
-    
+
     <button
-      class="btn btn-primary w-full"
+      class="mono-button w-full"
       on:click={handleSubmit}
     >
-      CREATE ENTRY
+      Create Entry
     </button>
   </div>
 </div>
