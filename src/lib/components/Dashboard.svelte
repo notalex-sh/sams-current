@@ -73,11 +73,7 @@
       <div class="flex border-b border-white/10 mb-4 overflow-x-auto">
         {#each tabs as tab}
           <button
-            class="px-4 py-3 text-xs uppercase tracking-wider transition-all whitespace-nowrap relative"
-            class:tab-active={$activeTab === tab.id}
-            class:text-white={$activeTab === tab.id}
-            class:text-white/40={$activeTab !== tab.id}
-            class:hover:text-white/70={$activeTab !== tab.id}
+            class="px-4 py-3 text-xs uppercase tracking-wider transition-all whitespace-nowrap relative {$activeTab === tab.id ? 'tab-active text-white' : 'text-white/40 hover:text-white/70'}"
             on:click={() => {
               $activeTab = tab.id;
               if (entriesContainer) entriesContainer.scrollTop = 0;

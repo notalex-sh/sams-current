@@ -37,9 +37,7 @@
       <!-- Left Actions -->
       <div class="flex items-center gap-2">
         <button
-          class="navbar-item"
-          class:mono-button-success={$isDirty}
-          class:text-white/40={!$isDirty}
+          class="navbar-item {$isDirty ? 'mono-button-success' : 'text-white/40'}"
           on:click={handleSave}
           disabled={!$isDirty}
         >
