@@ -2,17 +2,17 @@
   import { createEventDispatcher } from 'svelte';
   import { generatePassword } from '$lib/utils/encryption';
   import { updateEntry } from '$lib/stores/database';
-  
+
   const dispatch = createEventDispatcher();
-  
+
   export let entry;
-  
+
   let newPassword = '';
   let expiryOption = entry.expiryDays === 0 ? 'never' : 'custom';
   let customWeeks = Math.floor((entry.expiryDays || 0) / 7);
   let customDays = (entry.expiryDays || 0) % 7;
   let copied = false;
-  
+
   $: if (!newPassword) {
     newPassword = generatePassword({
       length: 16,
@@ -76,94 +76,103 @@
 <div class="modal-backdrop" on:click={handleBackdropClick}>
   <div class="modal-content">
     <div class="flex items-center justify-between mb-6">
-      <h2 class="text-lg font-mono uppercase tracking-[0.2em] text-cyan-400">
+      <h2 class="text-lg font-semibold uppercase tracking-[0.15em] text-white">
         Regenerate Password
       </h2>
-      <button 
-        class="text-gray-500 hover:text-cyan-400 transition-colors text-xl"
+      <button
+        class="text-white/40 hover:text-white transition-colors text-xl"
         on:click={() => dispatch('close')}
       >
         ×
       </button>
     </div>
-    
+
     <div class="space-y-4">
       <div>
-        <label class="block text-xs font-mono uppercase tracking-wider text-gray-400 mb-2">
+        <label class="block text-xs uppercase tracking-wider text-white/40 mb-2">
           Entry
         </label>
-        <div class="text-sm font-mono text-gray-200">
+        <div class="text-sm text-white">
           {entry.title}
         </div>
       </div>
-      
+
       <div>
-        <label class="block text-xs font-mono uppercase tracking-wider text-gray-400 mb-2">
+        <label class="block text-xs uppercase tracking-wider text-white/40 mb-2">
           New Password
         </label>
-        <div class="bg-gray-800 border border-gray-700 p-3 font-mono text-sm text-cyan-300 break-all">
+        <div class="bg-black border border-white/20 p-3 text-sm text-white break-all font-medium">
           {newPassword}
         </div>
         <div class="flex gap-2 mt-2">
           <button
-            class="btn flex-1"
+            class="mono-button-secondary flex-1 py-1.5"
             on:click={handleRegenerate}
           >
             Regenerate
           </button>
           <button
-            class="btn flex-1"
-            class:btn-success={copied}
+            class="flex-1 py-1.5"
+            class:mono-button-success={copied}
+            class:mono-button-secondary={!copied}
             on:click={handleCopy}
           >
             {copied ? 'Copied!' : 'Copy'}
           </button>
         </div>
       </div>
-      
+
       <div>
-        <label class="block text-xs font-mono uppercase tracking-wider text-gray-400 mb-2">
+        <label class="block text-xs uppercase tracking-wider text-white/40 mb-2">
           Password Expiry
         </label>
-        <div class="space-y-2">
-          <label class="flex items-center gap-2">
-            <input type="radio" bind:group={expiryOption} value="never" class="radio-input" />
-            <span class="text-sm font-mono text-gray-200">Never expire</span>
+        <div class="space-y-3">
+          <label class="flex items-center gap-2 cursor-pointer">
+            <input type="radio" bind:group={expiryOption} value="never" class="mono-radio" />
+            <span class="text-sm text-white/80">Never expire</span>
           </label>
-          <label class="flex items-center gap-2">
-            <input type="radio" bind:group={expiryOption} value="custom" class="radio-input" />
-            <span class="text-sm font-mono text-gray-200">Custom:</span>
+          <label class="flex items-center gap-2 cursor-pointer flex-wrap">
+            <input type="radio" bind:group={expiryOption} value="custom" class="mono-radio" />
+            <span class="text-sm text-white/80">Custom:</span>
             {#if expiryOption === 'custom'}
-              <input 
-                type="number" 
+              <input
+                type="number"
                 bind:value={customWeeks}
                 min="0"
-                class="input-field w-20 py-1"
+                class="mono-input w-16 py-1 text-center"
               />
-              <span class="text-sm font-mono text-gray-400">weeks</span>
-              <input 
-                type="number" 
+              <span class="text-sm text-white/40">weeks</span>
+              <input
+                type="number"
                 bind:value={customDays}
                 min="0"
                 max="6"
-                class="input-field w-20 py-1"
+                class="mono-input w-16 py-1 text-center"
               />
-              <span class="text-sm font-mono text-gray-400">days</span>
+              <span class="text-sm text-white/40">days</span>
             {/if}
           </label>
+          {#if expiryOption === 'custom'}
+            <div class="flex gap-2 pl-6">
+              <button type="button" class="flex-1 text-xs py-1 border border-white/20 text-white/50 hover:text-white hover:border-white/40 transition-all" on:click={() => { customWeeks = 4; customDays = 2; }}>30d</button>
+              <button type="button" class="flex-1 text-xs py-1 border border-white/20 text-white/50 hover:text-white hover:border-white/40 transition-all" on:click={() => { customWeeks = 12; customDays = 6; }}>90d</button>
+              <button type="button" class="flex-1 text-xs py-1 border border-white/20 text-white/50 hover:text-white hover:border-white/40 transition-all" on:click={() => { customWeeks = 26; customDays = 0; }}>6mo</button>
+              <button type="button" class="flex-1 text-xs py-1 border border-white/20 text-white/50 hover:text-white hover:border-white/40 transition-all" on:click={() => { customWeeks = 52; customDays = 0; }}>1yr</button>
+            </div>
+          {/if}
         </div>
       </div>
-      
-      <div class="grid grid-cols-2 gap-3 pt-4 border-t border-gray-800">
+
+      <div class="grid grid-cols-2 gap-3 pt-4 border-t border-white/10">
         <button
-          class="btn btn-primary"
+          class="mono-button"
           on:click={handleApply}
         >
           Apply Password
         </button>
-        
+
         <button
-          class="btn"
+          class="mono-button-secondary"
           on:click={() => dispatch('close')}
         >
           Cancel
@@ -172,17 +181,3 @@
     </div>
   </div>
 </div>
-
-<style>
-  .radio-input {
-    width: 0.75rem;
-    height: 0.75rem;
-    background-color: #111827;
-    border: 1px solid #374151;
-    color: #06b6d4;
-  }
-  
-  .radio-input:focus {
-    ring: 0;
-  }
-</style>

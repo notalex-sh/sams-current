@@ -1,19 +1,19 @@
 <script>
   import { onMount } from 'svelte';
-  
+
   export let show = false;
   export let message = '';
   export let duration = 3000;
-  
+
   let timeout;
-  
+
   $: if (show) {
     clearTimeout(timeout);
     timeout = setTimeout(() => {
       show = false;
     }, duration);
   }
-  
+
   onMount(() => {
     return () => clearTimeout(timeout);
   });
@@ -21,8 +21,8 @@
 
 {#if show}
   <div class="fixed top-20 right-4 z-50 animate-slide-in-right">
-    <div class="bg-black border border-cyan-400 px-6 py-3 shadow-[0_0_30px_rgba(6,182,212,0.3)]">
-      <p class="font-mono text-xs uppercase tracking-widest text-cyan-400">
+    <div class="bg-black border border-white/30 px-6 py-3 shadow-[0_0_30px_rgba(255,255,255,0.1)]">
+      <p class="text-xs uppercase tracking-widest text-white">
         {message}
       </p>
     </div>
@@ -40,7 +40,7 @@
       opacity: 1;
     }
   }
-  
+
   .animate-slide-in-right {
     animation: slide-in-right 0.2s ease-out;
   }
