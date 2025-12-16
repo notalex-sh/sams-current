@@ -80,7 +80,7 @@
     <Navbar on:action={handleNavAction} />
   {/if}
 
-  <main class="flex-1 min-h-0 overflow-hidden {$isAuthenticated ? 'container mx-auto px-4 py-4' : ''} fade-in">
+  <main class="flex-1 min-h-0 overflow-hidden {$isAuthenticated ? 'container mx-auto px-4 py-4' : 'flex items-center justify-center'} fade-in">
     {#if !$isAuthenticated}
       <LoginPanel on:notify={(e) => notify(e.detail)} />
     {:else}

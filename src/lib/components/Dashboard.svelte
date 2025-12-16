@@ -70,12 +70,12 @@
       </div>
 
       <div class="flex gap-2 mb-2 flex-shrink-0 flex-wrap">
-        <input type="text" bind:value={$searchQuery} placeholder="SEARCH..." class="mono-input flex-1 min-w-[120px]" />
-        <select bind:value={$selectedTag} class="mono-input w-28">
-          <option value="">ALL TAGS</option>
+        <input type="text" bind:value={$searchQuery} placeholder="SEARCH..." class="mono-input flex-1 min-w-[120px] text-xs" />
+        <select bind:value={$selectedTag} class="mono-input w-24 text-[10px] uppercase">
+          <option value="">Tags</option>
           {#each $allTags as tag}<option value={tag}>{tag}</option>{/each}
         </select>
-        <select bind:value={$sortBy} class="mono-input w-24">
+        <select bind:value={$sortBy} class="mono-input w-20 text-[10px]">
           {#each sortOptions as opt}<option value={opt.id}>{opt.label}</option>{/each}
         </select>
       </div>

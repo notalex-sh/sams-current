@@ -29,27 +29,58 @@
 
 <svelte:window on:keydown={handleKeyDown} />
 
-<nav class="border-b border-white/10 bg-black/90 backdrop-blur-sm sticky top-0 z-30 navbar-load">
+<nav class="bg-zinc-900/80 backdrop-blur-md border-b border-white/5 sticky top-0 z-30">
   <div class="container mx-auto px-4">
-    <div class="flex items-center justify-between h-14">
-      <div class="flex items-center gap-2">
-        <button class="navbar-item {$isDirty ? 'mono-button-success' : 'text-white/40'}" on:click={handleSave} disabled={!$isDirty}>
-          <span class="flex items-center gap-2">
-            Save
-            {#if $isDirty}<span class="w-1.5 h-1.5 bg-white unsaved-indicator"></span>{/if}
-          </span>
+    <div class="flex items-center justify-between h-12">
+      <div class="flex items-center gap-1">
+        <button
+          class="flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-medium transition-all {$isDirty ? 'bg-emerald-500/20 text-emerald-400 hover:bg-emerald-500/30' : 'text-white/30 cursor-not-allowed'}"
+          on:click={handleSave}
+          disabled={!$isDirty}
+        >
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" />
+          </svg>
+          Save
+          {#if $isDirty}<span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>{/if}
         </button>
-        <button class="navbar-item text-white/60 hover:text-white" on:click={() => dispatch('action', { action: 'export' })}>Export</button>
-        <button class="navbar-item text-white/60 hover:text-white" on:click={() => window.location.reload()}>Switch DB</button>
+
+        <button
+          class="flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-medium text-white/50 hover:text-white hover:bg-white/5 transition-all"
+          on:click={() => dispatch('action', { action: 'export' })}
+        >
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+          </svg>
+          Export
+        </button>
+
+        <button
+          class="flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-medium text-white/50 hover:text-white hover:bg-white/5 transition-all"
+          on:click={() => window.location.reload()}
+        >
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+          </svg>
+          Switch
+        </button>
       </div>
+
       <div class="flex items-center gap-3">
-        <div class="text-xs text-white/30 mr-2 hidden sm:block">
-          <kbd class="px-1.5 py-0.5 bg-white/5 border border-white/10 text-white/40">Ctrl</kbd>
-          <span class="mx-1">+</span>
-          <kbd class="px-1.5 py-0.5 bg-white/5 border border-white/10 text-white/40">S</kbd>
-          <span class="ml-2 text-white/30">to save</span>
+        <div class="hidden sm:flex items-center gap-1 text-[10px] text-white/25 font-mono">
+          <kbd class="px-1.5 py-0.5 rounded bg-white/5 border border-white/10">⌘S</kbd>
+          <span>save</span>
         </div>
-        <button class="mono-button-danger px-3 py-1.5" on:click={handleLogout}>Logout</button>
+
+        <button
+          class="flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-medium text-red-400/80 hover:text-red-400 hover:bg-red-500/10 transition-all"
+          on:click={handleLogout}
+        >
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+          </svg>
+          Logout
+        </button>
       </div>
     </div>
   </div>
