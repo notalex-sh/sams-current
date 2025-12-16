@@ -38,44 +38,48 @@
     animation: grid-move 20s linear infinite;
   }
 
-  /* Cyber Border Card */
+  /* Cyber Border Card - Material Style */
   .cyber-border {
-    @apply bg-black/90;
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    @apply bg-zinc-900/95 rounded-xl;
+    border: 1px solid rgba(255, 255, 255, 0.1);
     box-shadow:
-      inset 0 0 20px rgba(255, 255, 255, 0.02),
-      0 0 20px rgba(255, 255, 255, 0.05);
-    transition: all 0.2s;
+      0 4px 6px -1px rgba(0, 0, 0, 0.3),
+      0 2px 4px -2px rgba(0, 0, 0, 0.2),
+      0 0 0 1px rgba(255, 255, 255, 0.05);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .cyber-border:hover {
-    border-color: rgba(255, 255, 255, 0.3);
+    border-color: rgba(255, 255, 255, 0.15);
     box-shadow:
-      inset 0 0 25px rgba(255, 255, 255, 0.03),
-      0 0 25px rgba(255, 255, 255, 0.07);
+      0 10px 15px -3px rgba(0, 0, 0, 0.4),
+      0 4px 6px -4px rgba(0, 0, 0, 0.3),
+      0 0 0 1px rgba(255, 255, 255, 0.08);
+    transform: translateY(-1px);
   }
 
-  /* Mono Input */
+  /* Mono Input - Material Style */
   .mono-input {
-    @apply w-full px-3 py-2 text-white text-sm;
-    background: #000000;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    transition: all 0.2s;
+    @apply w-full px-4 py-2.5 text-white text-sm rounded-lg;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .mono-input:focus {
     @apply outline-none;
-    background: rgba(255, 255, 255, 0.02);
-    border-color: #ffffff;
-    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.5);
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1);
   }
 
   .mono-input::placeholder {
     @apply text-white/30;
   }
 
-  .mono-input:hover {
-    border-color: rgba(255, 255, 255, 0.4);
+  .mono-input:hover:not(:focus) {
+    background: rgba(255, 255, 255, 0.07);
+    border-color: rgba(255, 255, 255, 0.25);
   }
 
   /* Select styling */
@@ -89,133 +93,138 @@
     cursor: pointer;
   }
 
-  /* Primary Button */
+  /* Primary Button - Material Style */
   .mono-button {
-    @apply px-4 py-2 text-sm uppercase tracking-wider font-semibold;
+    @apply px-5 py-2.5 text-sm uppercase tracking-wider font-semibold rounded-lg;
     background: #ffffff;
     color: #000000;
-    border: 1px solid #ffffff;
-    transition: all 0.2s;
+    border: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .mono-button:hover {
-    background: #000000;
-    color: #ffffff;
-    box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+    background: #f0f0f0;
+    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.15);
+    transform: translateY(-1px);
   }
 
   .mono-button:active {
-    transform: scale(0.98);
+    transform: translateY(0) scale(0.98);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
   }
 
   .mono-button:disabled {
-    @apply opacity-30 cursor-not-allowed;
+    @apply opacity-40 cursor-not-allowed;
+    transform: none;
+    box-shadow: none;
   }
 
   .mono-button:disabled:hover {
     background: #ffffff;
-    color: #000000;
+    transform: none;
     box-shadow: none;
   }
 
-  /* Secondary Button */
+  /* Secondary Button - Material Style */
   .mono-button-secondary {
-    @apply px-4 py-2 text-sm uppercase tracking-wider font-medium text-white;
-    background: transparent;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    transition: all 0.2s;
+    @apply px-5 py-2.5 text-sm uppercase tracking-wider font-medium text-white rounded-lg;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .mono-button-secondary:hover {
-    background: rgba(255, 255, 255, 0.1);
-    border-color: #ffffff;
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.3);
+    transform: translateY(-1px);
   }
 
   .mono-button-secondary:active {
-    transform: scale(0.98);
+    transform: translateY(0) scale(0.98);
   }
 
   .mono-button-secondary:disabled {
     @apply opacity-30 cursor-not-allowed;
   }
 
-  /* Danger Button */
+  /* Danger Button - Material Style */
   .mono-button-danger {
-    @apply px-4 py-2 text-sm uppercase tracking-wider font-medium;
-    background: transparent;
-    color: #ff4444;
-    border: 1px solid rgba(255, 68, 68, 0.4);
-    transition: all 0.2s;
+    @apply px-5 py-2.5 text-sm uppercase tracking-wider font-medium rounded-lg;
+    background: rgba(255, 68, 68, 0.1);
+    color: #ff6b6b;
+    border: 1px solid rgba(255, 68, 68, 0.3);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .mono-button-danger:hover {
-    background: rgba(255, 68, 68, 0.15);
-    border-color: #ff4444;
-    box-shadow: 0 0 15px rgba(255, 68, 68, 0.2);
+    background: rgba(255, 68, 68, 0.2);
+    border-color: rgba(255, 68, 68, 0.5);
+    transform: translateY(-1px);
   }
 
-  /* Success Button */
+  /* Success Button - Material Style */
   .mono-button-success {
-    @apply px-4 py-2 text-sm uppercase tracking-wider font-medium;
-    background: transparent;
-    color: #44ff88;
-    border: 1px solid rgba(68, 255, 136, 0.4);
-    transition: all 0.2s;
+    @apply px-5 py-2.5 text-sm uppercase tracking-wider font-medium rounded-lg;
+    background: rgba(68, 255, 136, 0.1);
+    color: #5cff9d;
+    border: 1px solid rgba(68, 255, 136, 0.3);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .mono-button-success:hover {
-    background: rgba(68, 255, 136, 0.15);
-    border-color: #44ff88;
-    box-shadow: 0 0 15px rgba(68, 255, 136, 0.2);
+    background: rgba(68, 255, 136, 0.2);
+    border-color: rgba(68, 255, 136, 0.5);
+    transform: translateY(-1px);
   }
 
-  /* Tab Active State */
+  /* Tab Active State - Material Style */
   .tab-active {
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.08);
     border-bottom: 2px solid #ffffff;
+    border-radius: 8px 8px 0 0;
   }
 
-  /* Badge */
+  /* Badge - Material Style */
   .mono-badge {
-    @apply inline-flex items-center px-2 py-1 text-xs font-medium;
+    @apply inline-flex items-center px-2.5 py-1 text-xs font-medium rounded-full;
     background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    color: rgba(255, 255, 255, 0.8);
-    transition: all 0.2s;
+    color: rgba(255, 255, 255, 0.85);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .mono-badge:hover {
-    border-color: rgba(255, 255, 255, 0.4);
-    background: rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.18);
+    transform: scale(1.02);
   }
 
-  /* Navbar Item */
+  /* Navbar Item - Material Style */
   .navbar-item {
-    @apply relative px-4 py-2 cursor-pointer text-sm uppercase tracking-wider;
-    border: 1px solid transparent;
-    transition: all 0.2s;
+    @apply relative px-4 py-2 cursor-pointer text-sm uppercase tracking-wider rounded-lg;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .navbar-item:hover {
     background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.3);
   }
 
-  /* Modal */
+  /* Modal - Material Style */
   .modal-backdrop {
     @apply fixed inset-0 z-40;
-    background: rgba(0, 0, 0, 0.95);
-    backdrop-filter: blur(5px);
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(8px);
     animation: fadeIn 0.2s ease-out;
   }
 
   .modal-content {
     @apply fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50;
-    @apply w-full max-w-lg p-6;
-    background: rgba(0, 0, 0, 0.95);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    box-shadow: 0 0 40px rgba(255, 255, 255, 0.1);
-    animation: modalScale 0.2s ease-out;
+    @apply w-full max-w-lg p-6 rounded-2xl;
+    background: #18181b;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow:
+      0 25px 50px -12px rgba(0, 0, 0, 0.6),
+      0 0 0 1px rgba(255, 255, 255, 0.05);
+    animation: modalScale 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
   }
 
   /* Loading */
@@ -259,25 +268,27 @@
     box-shadow: 0 0 10px rgba(68, 255, 136, 0.5);
   }
 
-  /* Stats Card */
+  /* Stats Card - Material Style */
   .stat-card {
-    @apply p-4;
-    background: rgba(0, 0, 0, 0.5);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    transition: all 0.2s;
+    @apply p-4 rounded-xl;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .stat-card:hover {
-    border-color: rgba(255, 255, 255, 0.3);
-    background: rgba(255, 255, 255, 0.02);
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(255, 255, 255, 0.15);
+    transform: translateY(-2px);
   }
 
-  /* Checkbox */
+  /* Checkbox - Material Style */
   .mono-checkbox {
-    @apply w-4 h-4 bg-black cursor-pointer;
-    border: 1px solid rgba(255, 255, 255, 0.3);
+    @apply w-4 h-4 cursor-pointer rounded;
+    background: rgba(255, 255, 255, 0.05);
+    border: 2px solid rgba(255, 255, 255, 0.3);
     appearance: none;
-    transition: all 0.2s;
+    transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .mono-checkbox:checked {
@@ -287,24 +298,27 @@
 
   .mono-checkbox:hover {
     border-color: rgba(255, 255, 255, 0.6);
+    background: rgba(255, 255, 255, 0.1);
   }
 
   .mono-checkbox:focus {
     outline: none;
-    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.2);
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.15);
   }
 
-  /* Radio Button */
+  /* Radio Button - Material Style */
   .mono-radio {
-    @apply w-4 h-4 bg-black cursor-pointer rounded-full;
-    border: 1px solid rgba(255, 255, 255, 0.3);
+    @apply w-4 h-4 cursor-pointer rounded-full;
+    background: rgba(255, 255, 255, 0.05);
+    border: 2px solid rgba(255, 255, 255, 0.3);
     appearance: none;
-    transition: all 0.2s;
+    transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .mono-radio:checked {
     border-color: #ffffff;
     border-width: 5px;
+    background: transparent;
   }
 
   .mono-radio:hover {
@@ -313,7 +327,7 @@
 
   .mono-radio:focus {
     outline: none;
-    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.2);
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.15);
   }
 
   /* Unsaved Indicator */
@@ -321,23 +335,24 @@
     animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   }
 
-  /* Scrollbar */
+  /* Scrollbar - Material Style */
   .custom-scrollbar::-webkit-scrollbar {
-    width: 6px;
+    width: 8px;
   }
 
   .custom-scrollbar::-webkit-scrollbar-track {
-    background: transparent;
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 4px;
   }
 
   .custom-scrollbar::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.2);
-    border-radius: 3px;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 4px;
     transition: background 0.2s;
   }
 
   .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-    background: rgba(255, 255, 255, 0.4);
+    background: rgba(255, 255, 255, 0.3);
   }
 }
 
