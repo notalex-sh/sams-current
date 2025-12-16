@@ -126,13 +126,13 @@
         <label class="block text-xs uppercase tracking-wider text-white/40 mb-2">
           Password Expiry
         </label>
-        <div class="space-y-2">
+        <div class="space-y-3">
           <label class="flex items-center gap-2 cursor-pointer">
-            <input type="radio" bind:group={expiryOption} value="never" class="mono-checkbox rounded-full" />
+            <input type="radio" bind:group={expiryOption} value="never" class="mono-radio" />
             <span class="text-sm text-white/80">Never expire</span>
           </label>
           <label class="flex items-center gap-2 cursor-pointer flex-wrap">
-            <input type="radio" bind:group={expiryOption} value="custom" class="mono-checkbox rounded-full" />
+            <input type="radio" bind:group={expiryOption} value="custom" class="mono-radio" />
             <span class="text-sm text-white/80">Custom:</span>
             {#if expiryOption === 'custom'}
               <input
@@ -152,6 +152,14 @@
               <span class="text-sm text-white/40">days</span>
             {/if}
           </label>
+          {#if expiryOption === 'custom'}
+            <div class="flex gap-2 pl-6">
+              <button type="button" class="flex-1 text-xs py-1 border border-white/20 text-white/50 hover:text-white hover:border-white/40 transition-all" on:click={() => { customWeeks = 4; customDays = 2; }}>30d</button>
+              <button type="button" class="flex-1 text-xs py-1 border border-white/20 text-white/50 hover:text-white hover:border-white/40 transition-all" on:click={() => { customWeeks = 12; customDays = 6; }}>90d</button>
+              <button type="button" class="flex-1 text-xs py-1 border border-white/20 text-white/50 hover:text-white hover:border-white/40 transition-all" on:click={() => { customWeeks = 26; customDays = 0; }}>6mo</button>
+              <button type="button" class="flex-1 text-xs py-1 border border-white/20 text-white/50 hover:text-white hover:border-white/40 transition-all" on:click={() => { customWeeks = 52; customDays = 0; }}>1yr</button>
+            </div>
+          {/if}
         </div>
       </div>
 

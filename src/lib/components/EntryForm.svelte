@@ -235,7 +235,7 @@
       {/if}
     </div>
 
-    <div class="border-t border-white/10 pt-4">
+    <div class="border-t border-white/10 pt-4 space-y-3">
       <div class="flex items-center gap-3 flex-wrap">
         <label class="flex items-center gap-2 text-xs text-white/60 hover:text-white cursor-pointer transition-colors">
           <input
@@ -265,6 +265,14 @@
           </div>
         {/if}
       </div>
+      {#if !neverExpire}
+        <div class="flex gap-2">
+          <button type="button" class="flex-1 text-xs py-1 border border-white/20 text-white/50 hover:text-white hover:border-white/40 transition-all" on:click={() => { expiryWeeks = 4; expiryDaysInput = 2; }}>30d</button>
+          <button type="button" class="flex-1 text-xs py-1 border border-white/20 text-white/50 hover:text-white hover:border-white/40 transition-all" on:click={() => { expiryWeeks = 12; expiryDaysInput = 6; }}>90d</button>
+          <button type="button" class="flex-1 text-xs py-1 border border-white/20 text-white/50 hover:text-white hover:border-white/40 transition-all" on:click={() => { expiryWeeks = 26; expiryDaysInput = 0; }}>6mo</button>
+          <button type="button" class="flex-1 text-xs py-1 border border-white/20 text-white/50 hover:text-white hover:border-white/40 transition-all" on:click={() => { expiryWeeks = 52; expiryDaysInput = 0; }}>1yr</button>
+        </div>
+      {/if}
     </div>
 
     <div>

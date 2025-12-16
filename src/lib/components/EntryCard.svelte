@@ -56,6 +56,7 @@
       _neverExpire: entry.expiryDays === 0,
       _editExpiryWeeks: Math.floor((entry.expiryDays || 0) / 7),
       _editExpiryDays: (entry.expiryDays || 0) % 7,
+      _tagsString: entry.tags ? entry.tags.join(', ') : '',
     };
     isEditing = true;
     showEditPassword = false;
@@ -66,16 +67,16 @@
       _neverExpire,
       _editExpiryWeeks,
       _editExpiryDays,
+      _tagsString,
       ...dataToSave
     } = editData;
 
     const newExpiryDays = _neverExpire ? 0 : (_editExpiryWeeks || 0) * 7 + (_editExpiryDays || 0);
+    const parsedTags = _tagsString ? _tagsString.split(',').map(t => t.trim()).filter(t => t) : [];
 
     updateEntry(entry.id, {
       ...dataToSave,
-      tags: typeof dataToSave.tags === 'string'
-        ? dataToSave.tags.split(',').map(t => t.trim()).filter(t => t)
-        : dataToSave.tags,
+      tags: parsedTags,
       expiryDays: newExpiryDays
     });
     isEditing = false;
@@ -277,7 +278,7 @@
       </div>
 
       <input type="url" bind:value={editData.docsUrl} placeholder="DOCS URL" class="mono-input text-sm" />
-      <input type="text" value={editData.tags ? editData.tags.join(', ') : ''} on:input={(e) => editData.tags = e.target.value} placeholder="TAGS" class="mono-input text-sm" />
+      <input type="text" bind:value={editData._tagsString} placeholder="TAGS (COMMA SEPARATED)" class="mono-input text-sm" />
       <textarea bind:value={editData.notes} placeholder="NOTES" rows="2" class="mono-input text-sm resize-none" />
 
       <div class="flex gap-2">

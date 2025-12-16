@@ -294,6 +294,28 @@
     box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.2);
   }
 
+  /* Radio Button */
+  .mono-radio {
+    @apply w-4 h-4 bg-black cursor-pointer rounded-full;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    appearance: none;
+    transition: all 0.2s;
+  }
+
+  .mono-radio:checked {
+    border-color: #ffffff;
+    border-width: 5px;
+  }
+
+  .mono-radio:hover {
+    border-color: rgba(255, 255, 255, 0.6);
+  }
+
+  .mono-radio:focus {
+    outline: none;
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.2);
+  }
+
   /* Unsaved Indicator */
   .unsaved-indicator {
     animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
