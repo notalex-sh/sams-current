@@ -20,6 +20,13 @@
   $: expiryStatus = calculateExpiryStatus(entry);
   $: hasTotpSecret = entry.totpSecret && isValidTotpSecret(entry.totpSecret);
 
+  // Ensure URLs have a protocol
+  function normalizeUrl(url) {
+    if (!url) return url;
+    if (url.startsWith('http://') || url.startsWith('https://')) return url;
+    return 'https://' + url;
+  }
+
   function calculateExpiryStatus(currentEntry) {
     if (!currentEntry.hasPassword || !currentEntry.passwordSetDate) return null;
     if (currentEntry.expiryDays === 0) {
@@ -123,7 +130,7 @@
       <div class="entry-header">
         <h3 class="entry-title">
           {#if entry.url}
-            <a href={entry.url} target="_blank" rel="noopener noreferrer" class="title-link">
+            <a href={normalizeUrl(entry.url)} target="_blank" rel="noopener noreferrer" class="title-link">
               {entry.title}
               <svg class="external-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
@@ -157,7 +164,7 @@
 
       <!-- Docs Link -->
       {#if entry.docsUrl}
-        <a href={entry.docsUrl} target="_blank" rel="noopener noreferrer" class="docs-link">
+        <a href={normalizeUrl(entry.docsUrl)} target="_blank" rel="noopener noreferrer" class="docs-link">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
             <polyline points="14 2 14 8 20 8"/>
