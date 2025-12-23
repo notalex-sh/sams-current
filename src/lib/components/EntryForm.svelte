@@ -34,11 +34,12 @@
 
   $: passwordStrength = calculatePasswordStrength(password);
   $: totpValid = !totpSecret || isValidTotpSecret(totpSecret);
-
-  // Duplicate detection
   $: duplicates = (title || url || username) ? findDuplicates(title, url, username) : [];
   let showDuplicateWarning = false;
 
+  /*
+   * Generates a new password using current settings and shows preview.
+   */
   function handleGeneratePassword() {
     generatedPassword = generatePassword({
       length: passLength,
@@ -50,16 +51,21 @@
     showPasswordPreview = true;
   }
 
+  /*
+   * Applies the generated password to the form field.
+   */
   function useGeneratedPassword() {
     password = generatedPassword;
     showPasswordPreview = false;
     dispatch('notify', 'Password applied');
   }
 
+  /*
+   * Handles TOTP input, extracting secret from otpauth:// URIs if present.
+   */
   function handleTotpInput(e) {
     const value = e.target.value;
 
-    // Check if it's an otpauth:// URI
     if (value.startsWith('otpauth://')) {
       const parsed = parseOtpAuthUri(value);
       if (parsed && parsed.secret) {
@@ -69,23 +75,24 @@
       }
     }
 
-    // Clean and normalize the secret
     totpSecret = value.replace(/\s+/g, '').toUpperCase();
   }
 
+  /*
+   * Validates form data and creates a new entry.
+   * Shows duplicate warning if potential duplicates exist.
+   */
   function handleSubmit() {
     if (!title) {
       dispatch('notify', 'Title required');
       return;
     }
 
-    // Check for duplicates
     if (duplicates.length > 0 && !showDuplicateWarning) {
       showDuplicateWarning = true;
       return;
     }
 
-    // Validate TOTP secret if provided
     if (totpSecret && !isValidTotpSecret(totpSecret)) {
       dispatch('notify', 'Invalid TOTP secret format');
       return;
@@ -105,7 +112,6 @@
 
     addEntry(entry);
 
-    // Reset form
     title = '';
     url = '';
     username = '';
@@ -126,6 +132,9 @@
     dispatch('notify', 'Entry created');
   }
 
+  /*
+   * Hides the duplicate warning dialog.
+   */
   function dismissDuplicateWarning() {
     showDuplicateWarning = false;
   }

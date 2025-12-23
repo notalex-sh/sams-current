@@ -11,12 +11,18 @@
   let loading = false;
   let showPassword = false;
 
+  /*
+   * Stores the selected database file and resets form state.
+   */
   function handleFileSelect(event) {
     selectedFile = event.target.files[0];
     isCreatingNew = false;
     password = '';
   }
 
+  /*
+   * Switches to new database creation mode.
+   */
   function startNewDatabase() {
     isCreatingNew = true;
     selectedFile = null;
@@ -24,6 +30,9 @@
     confirmPassword = '';
   }
 
+  /*
+   * Validates input and either creates a new database or loads an existing one.
+   */
   async function handleSubmit() {
     if (!password) {
       dispatch('notify', 'Password required');
@@ -64,6 +73,9 @@
     }
   }
 
+  /*
+   * Submits form on Enter key press.
+   */
   function handleKeyDown(event) {
     if (event.key === 'Enter') {
       handleSubmit();

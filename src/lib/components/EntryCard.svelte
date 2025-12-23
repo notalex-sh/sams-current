@@ -20,13 +20,19 @@
   $: expiryStatus = calculateExpiryStatus(entry);
   $: hasTotpSecret = entry.totpSecret && isValidTotpSecret(entry.totpSecret);
 
-  // Ensure URLs have a protocol
+  /*
+   * Prepends https:// to URLs that don't have a protocol.
+   */
   function normalizeUrl(url) {
     if (!url) return url;
     if (url.startsWith('http://') || url.startsWith('https://')) return url;
     return 'https://' + url;
   }
 
+  /*
+   * Computes password expiry status (ok, expiring, expired, never).
+   * Returns days/weeks remaining and status for UI display.
+   */
   function calculateExpiryStatus(currentEntry) {
     if (!currentEntry.hasPassword || !currentEntry.passwordSetDate) return null;
     if (currentEntry.expiryDays === 0) {
@@ -49,11 +55,17 @@
     return { status: 'ok', days: daysUntilExpiry, weeks, remainingDays };
   }
 
+  /*
+   * Copies text to clipboard and shows a notification.
+   */
   function copyToClipboard(text, type) {
     navigator.clipboard.writeText(text);
     dispatch('notify', `${type} copied`);
   }
 
+  /*
+   * Prompts for confirmation and deletes the entry.
+   */
   function handleDelete() {
     if (confirm(`Delete "${entry.title}"?`)) {
       deleteEntry(entry.id);
@@ -61,6 +73,9 @@
     }
   }
 
+  /*
+   * Initializes edit mode with current entry data.
+   */
   function startEdit() {
     editData = {
       ...entry,
@@ -74,6 +89,9 @@
     showTotpSecret = false;
   }
 
+  /*
+   * Saves edited entry data and exits edit mode.
+   */
   function saveEdit() {
     const {
       _neverExpire,
@@ -86,7 +104,6 @@
     const newExpiryDays = _neverExpire ? 0 : (_editExpiryWeeks || 0) * 7 + (_editExpiryDays || 0);
     const parsedTags = _tagsString ? _tagsString.split(',').map(t => t.trim()).filter(t => t) : [];
 
-    // Clean up TOTP secret
     if (dataToSave.totpSecret) {
       dataToSave.totpSecret = dataToSave.totpSecret.replace(/\s+/g, '').toUpperCase();
     }
@@ -100,6 +117,9 @@
     dispatch('notify', 'Entry updated');
   }
 
+  /*
+   * Discards changes and exits edit mode.
+   */
   function cancelEdit() {
     isEditing = false;
     showEditPassword = false;

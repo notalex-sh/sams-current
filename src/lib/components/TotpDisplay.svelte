@@ -15,6 +15,10 @@
   $: progress = (timeRemaining / period) * 100;
   $: isLow = timeRemaining <= 5;
 
+  /*
+   * Generates a new TOTP code from the secret.
+   * Sets isGenerating flag to prevent concurrent generation attempts.
+   */
   async function updateCode() {
     if (!secret || isGenerating) return;
 
@@ -30,10 +34,13 @@
     isGenerating = false;
   }
 
+  /*
+   * Updates the countdown timer and triggers code refresh when crossing period boundary.
+   * Called every second via setInterval.
+   */
   function updateTimer() {
     const newRemaining = getTimeRemaining(period);
 
-    // Check if we've crossed into a new period
     if (newRemaining > timeRemaining) {
       updateCode();
     }
@@ -41,6 +48,9 @@
     timeRemaining = newRemaining;
   }
 
+  /*
+   * Copies the current TOTP code to clipboard and dispatches a notification.
+   */
   function copyCode() {
     if (code) {
       navigator.clipboard.writeText(code);

@@ -1,3 +1,7 @@
+/*
+ * Converts an array of entries to CSV format string.
+ * Includes headers and properly escaped values.
+ */
 export function exportToCSV(entries) {
   const headers = [
     'Title',
@@ -26,15 +30,19 @@ export function exportToCSV(entries) {
       escapeCSV((entry.expiryDays || 90).toString())
     ];
   });
-  
+
   const csvContent = [
     headers.join(','),
     ...rows.map(row => row.join(','))
   ].join('\n');
-  
+
   return csvContent;
 }
 
+/*
+ * Escapes a value for safe CSV inclusion.
+ * Wraps in quotes and escapes internal quotes if needed.
+ */
 function escapeCSV(value) {
   if (value === null || value === undefined) return '';
 
@@ -43,26 +51,32 @@ function escapeCSV(value) {
     value = value.replace(/"/g, '""');
     return `"${value}"`;
   }
-  
+
   return value;
 }
 
+/*
+ * Formats an ISO date string to YYYY-MM-DD format.
+ */
 function formatDate(dateString) {
   if (!dateString) return '';
-  
+
   try {
     const date = new Date(dateString);
-    return date.toISOString().split('T')[0]; 
+    return date.toISOString().split('T')[0];
   } catch {
     return dateString;
   }
 }
 
+/*
+ * Triggers a browser download of entries as a CSV file.
+ */
 export function downloadCSV(entries, filename = 'sams_export.csv') {
   const csv = exportToCSV(entries);
   const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
   const url = URL.createObjectURL(blob);
-  
+
   const link = document.createElement('a');
   link.href = url;
   link.download = filename;
@@ -71,20 +85,24 @@ export function downloadCSV(entries, filename = 'sams_export.csv') {
   URL.revokeObjectURL(url);
 }
 
+/*
+ * Parses CSV content back into an array of entry objects.
+ * Expects the format produced by exportToCSV.
+ */
 export function parseCSV(csvContent) {
   const lines = csvContent.split('\n');
   if (lines.length < 2) {
     throw new Error('Invalid CSV format');
   }
-  
+
   const entries = [];
-  
+
   for (let i = 1; i < lines.length; i++) {
     const line = lines[i].trim();
     if (!line) continue;
-    
+
     const values = parseCSVLine(line);
-    
+
     if (values.length >= 10) {
       entries.push({
         title: values[0] || '',
@@ -97,27 +115,30 @@ export function parseCSV(csvContent) {
         createdAt: values[7] || new Date().toISOString(),
         passwordSetDate: values[8] || null,
         expiryDays: parseInt(values[9]) || 90,
-        hasPassword: !!(values[2] || values[3]) 
+        hasPassword: !!(values[2] || values[3])
       });
     }
   }
-  
+
   return entries;
 }
 
+/*
+ * Parses a single CSV line handling quoted values and escaped quotes.
+ */
 function parseCSVLine(line) {
   const values = [];
   let current = '';
   let inQuotes = false;
-  
+
   for (let i = 0; i < line.length; i++) {
     const char = line[i];
     const nextChar = line[i + 1];
-    
+
     if (char === '"') {
       if (inQuotes && nextChar === '"') {
         current += '"';
-        i++; 
+        i++;
       } else {
         inQuotes = !inQuotes;
       }
@@ -130,6 +151,6 @@ function parseCSVLine(line) {
   }
 
   values.push(current);
-  
+
   return values;
 }
