@@ -125,7 +125,8 @@ export function addEntry(entry) {
       createdAt: new Date().toISOString(),
       passwordSetDate: entry.password ? new Date().toISOString() : null,
       expiryDays: entry.expiryDays ?? 0, // Default to never expire
-      hasPassword: !!(entry.username || entry.password)
+      hasPassword: !!(entry.username || entry.password),
+      totpSecret: entry.totpSecret || null
     };
     isDirty.set(true);
     return [...items, newEntry];
@@ -211,7 +212,8 @@ export async function loadDatabase(file, password) {
       createdAt: entry.createdAt || new Date().toISOString(),
       passwordSetDate: entry.passwordSetDate || (entry.password ? entry.createdAt : null),
       expiryDays: entry.expiryDays ?? 90,
-      hasPassword: !!(entry.username || entry.password)
+      hasPassword: !!(entry.username || entry.password),
+      totpSecret: entry.totpSecret || null
     }));
     
     entries.set(normalizedEntries);
