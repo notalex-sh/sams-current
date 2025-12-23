@@ -135,7 +135,7 @@
               </svg>
             </div>
             <p class="empty-text">
-              {$searchQuery || $selectedTag ? 'No matching entries found' : `No ${tabs.find(t => t.id === $activeTab)?.label.toLowerCase() || 'entries'} yet`}
+              {$searchQuery || $selectedTag ? 'No matching entries found' : `No ${$activeTab === 'all' ? 'entries' : tabs.find(t => t.id === $activeTab)?.label.toLowerCase() || 'entries'} yet`}
             </p>
             <p class="empty-hint">
               {$searchQuery || $selectedTag ? 'Try a different search or filter' : 'Create your first entry using the form'}
