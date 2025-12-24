@@ -4,7 +4,7 @@ const BASE32_ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
  * Decodes a Base32 encoded string into a Uint8Array.
  * Handles padding and whitespace, throws on invalid characters.
  */
-export function base32Decode(encoded) {
+function base32Decode(encoded) {
   const cleanedInput = encoded.replace(/\s+/g, '').toUpperCase();
   const unpadded = cleanedInput.replace(/=+$/, '');
 
@@ -98,13 +98,6 @@ export async function generateTOTP(secret, options = {}) {
 export function getTimeRemaining(period = 30) {
   const now = Math.floor(Date.now() / 1000);
   return period - (now % period);
-}
-
-/*
- * Returns the current time-step counter for TOTP calculation.
- */
-export function getCurrentCounter(period = 30) {
-  return Math.floor(Date.now() / 1000 / period);
 }
 
 /*

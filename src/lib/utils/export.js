@@ -2,7 +2,7 @@
  * Converts an array of entries to CSV format string.
  * Includes headers and properly escaped values.
  */
-export function exportToCSV(entries) {
+function exportToCSV(entries) {
   const headers = [
     'Title',
     'URL',

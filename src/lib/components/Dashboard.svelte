@@ -15,10 +15,10 @@
   const dispatch = createEventDispatcher();
 
   const tabs = [
-    { id: 'all', label: 'All', icon: 'grid' },
-    { id: 'logins', label: 'Logins', icon: 'key' },
-    { id: 'bookmarks', label: 'Bookmarks', icon: 'bookmark' },
-    { id: 'expiring', label: 'Expiring', icon: 'clock', highlight: true }
+    { id: 'all', label: 'All' },
+    { id: 'logins', label: 'Logins' },
+    { id: 'bookmarks', label: 'Bookmarks' },
+    { id: 'expiring', label: 'Expiring' }
   ];
 
   const sortOptions = [

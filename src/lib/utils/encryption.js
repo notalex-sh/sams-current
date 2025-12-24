@@ -87,19 +87,6 @@ export async function decryptData(encryptedBlob, password) {
 }
 
 /*
- * Tests if a password can successfully decrypt the given blob.
- * Returns true if valid, false otherwise.
- */
-export async function verifyPassword(encryptedBlob, password) {
-  try {
-    await decryptData(encryptedBlob, password);
-    return true;
-  } catch {
-    return false;
-  }
-}
-
-/*
  * Generates a cryptographically secure random password.
  * Configurable length and character sets (uppercase, lowercase, numbers, symbols).
  */
