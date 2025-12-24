@@ -87,24 +87,25 @@
   <div class="login-card">
     <!-- Logo & Header -->
     <div class="login-header">
+      <div class="logo-glow"></div>
       <div class="logo">
-        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-          <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
-          <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
-          <circle cx="12" cy="16" r="1"/>
-        </svg>
+        <img src="/logo.png" alt="SAMS" class="logo-image" />
       </div>
       <h1 class="app-title">S.A.M.S.</h1>
       <p class="app-subtitle">Secure Access Management System</p>
+      <div class="header-line"></div>
     </div>
 
     <div class="login-body">
       {#if !isCreatingNew}
         <!-- Open Database -->
         <div class="section">
-          <label class="section-label">Open Existing Database</label>
+          <label class="section-label">
+            <span class="label-icon">&gt;</span>
+            Open Existing Database
+          </label>
           <div class="file-input-wrapper">
-            <div class="file-display">
+            <div class="file-display" class:has-file={selectedFile}>
               {#if selectedFile}
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
@@ -128,7 +129,9 @@
         </div>
 
         <div class="divider">
-          <span>or</span>
+          <span class="divider-line"></span>
+          <span class="divider-text">OR</span>
+          <span class="divider-line"></span>
         </div>
 
         <button class="create-btn" on:click={startNewDatabase}>
@@ -136,7 +139,7 @@
             <line x1="12" y1="5" x2="12" y2="19"/>
             <line x1="5" y1="12" x2="19" y2="12"/>
           </svg>
-          Create New Database
+          Initialize New Database
         </button>
       {/if}
 
@@ -144,6 +147,7 @@
         <div class="auth-section">
           <div class="section">
             <label class="section-label">
+              <span class="label-icon">&gt;</span>
               {isCreatingNew ? 'Master Password' : 'Password'}
             </label>
             <div class="password-wrapper">
@@ -182,7 +186,10 @@
 
           {#if isCreatingNew}
             <div class="section">
-              <label class="section-label">Confirm Password</label>
+              <label class="section-label">
+                <span class="label-icon">&gt;</span>
+                Confirm Password
+              </label>
               {#if showPassword}
                 <input
                   type="text"
@@ -204,23 +211,11 @@
 
             <div class="requirements">
               <div class="req-item" class:met={password.length >= 8}>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  {#if password.length >= 8}
-                    <polyline points="20 6 9 17 4 12"/>
-                  {:else}
-                    <circle cx="12" cy="12" r="10"/>
-                  {/if}
-                </svg>
+                <div class="req-indicator"></div>
                 <span>Minimum 8 characters</span>
               </div>
               <div class="req-item" class:met={password && password === confirmPassword}>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  {#if password && password === confirmPassword}
-                    <polyline points="20 6 9 17 4 12"/>
-                  {:else}
-                    <circle cx="12" cy="12" r="10"/>
-                  {/if}
-                </svg>
+                <div class="req-indicator"></div>
                 <span>Passwords match</span>
               </div>
             </div>
@@ -236,7 +231,7 @@
                 <div class="spinner"></div>
                 Processing...
               {:else}
-                {isCreatingNew ? 'Create Database' : 'Unlock'}
+                {isCreatingNew ? 'Initialize' : 'Decrypt & Access'}
               {/if}
             </button>
 
@@ -261,25 +256,16 @@
     <div class="security-footer">
       <div class="security-badges">
         <div class="badge">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-          </svg>
+          <div class="badge-dot"></div>
           <span>AES-256-GCM</span>
         </div>
         <div class="badge">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
-            <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
-          </svg>
-          <span>Argon2id</span>
+          <div class="badge-dot"></div>
+          <span>ARGON2ID</span>
         </div>
         <div class="badge">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <circle cx="12" cy="12" r="10"/>
-            <line x1="2" y1="12" x2="22" y2="12"/>
-            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
-          </svg>
-          <span>Local Only</span>
+          <div class="badge-dot"></div>
+          <span>LOCAL ONLY</span>
         </div>
       </div>
     </div>
@@ -297,47 +283,84 @@
 
   .login-card {
     width: 100%;
-    max-width: 420px;
-    background: rgba(24, 24, 27, 0.95);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 24px;
+    max-width: 440px;
+    background: rgba(10, 10, 12, 0.95);
+    border: 1px solid rgba(6, 182, 212, 0.15);
+    border-radius: 20px;
     overflow: hidden;
     animation: scaleIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow:
+      0 0 60px rgba(6, 182, 212, 0.1),
+      0 0 100px rgba(6, 182, 212, 0.05),
+      inset 0 1px 0 rgba(255, 255, 255, 0.05);
   }
 
   .login-header {
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 40px 32px 32px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    padding: 48px 32px 32px;
+    background: linear-gradient(180deg, rgba(6, 182, 212, 0.08) 0%, transparent 100%);
+  }
+
+  .logo-glow {
+    position: absolute;
+    top: 30px;
+    width: 120px;
+    height: 120px;
+    background: radial-gradient(circle, rgba(6, 182, 212, 0.3) 0%, transparent 70%);
+    filter: blur(30px);
+    pointer-events: none;
   }
 
   .logo {
+    position: relative;
     width: 80px;
     height: 80px;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
-    border-radius: 20px;
-    margin-bottom: 20px;
-    color: white;
+    margin-bottom: 24px;
+    filter: drop-shadow(0 0 20px rgba(6, 182, 212, 0.5));
+    animation: float 4s ease-in-out infinite;
+  }
+
+  .logo-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
   }
 
   .app-title {
-    font-size: 28px;
+    font-size: 32px;
     font-weight: 700;
-    letter-spacing: 0.2em;
+    letter-spacing: 0.25em;
     color: white;
     margin: 0;
+    text-shadow: 0 0 30px rgba(6, 182, 212, 0.4);
   }
 
   .app-subtitle {
-    font-size: 12px;
-    letter-spacing: 0.05em;
-    color: rgba(255, 255, 255, 0.4);
-    margin: 8px 0 0 0;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    color: rgba(6, 182, 212, 0.6);
+    margin: 10px 0 0 0;
+    text-transform: uppercase;
+  }
+
+  .header-line {
+    position: absolute;
+    bottom: 0;
+    left: 32px;
+    right: 32px;
+    height: 1px;
+    background: linear-gradient(90deg,
+      transparent,
+      rgba(6, 182, 212, 0.4) 30%,
+      rgba(6, 182, 212, 0.4) 70%,
+      transparent
+    );
   }
 
   .login-body {
@@ -349,12 +372,19 @@
   }
 
   .section-label {
-    display: block;
-    font-size: 12px;
-    font-weight: 500;
-    letter-spacing: 0.05em;
-    color: rgba(255, 255, 255, 0.5);
-    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    color: rgba(6, 182, 212, 0.7);
+    margin-bottom: 12px;
+    text-transform: uppercase;
+  }
+
+  .label-icon {
+    color: rgba(6, 182, 212, 0.5);
   }
 
   .file-input-wrapper {
@@ -368,9 +398,19 @@
     align-items: center;
     gap: 10px;
     padding: 14px 16px;
-    background: rgba(255, 255, 255, 0.04);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 12px;
+    background: rgba(6, 182, 212, 0.03);
+    border: 1px solid rgba(6, 182, 212, 0.1);
+    border-radius: 10px;
+    transition: all 0.2s ease;
+  }
+
+  .file-display.has-file {
+    border-color: rgba(6, 182, 212, 0.3);
+    background: rgba(6, 182, 212, 0.05);
+  }
+
+  .file-display.has-file svg {
+    color: rgba(6, 182, 212, 0.8);
   }
 
   .file-name {
@@ -383,24 +423,25 @@
 
   .file-placeholder {
     font-size: 13px;
-    color: rgba(255, 255, 255, 0.3);
+    color: rgba(255, 255, 255, 0.25);
   }
 
   .browse-btn {
     padding: 14px 20px;
-    background: rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    border-radius: 12px;
+    background: rgba(6, 182, 212, 0.1);
+    border: 1px solid rgba(6, 182, 212, 0.25);
+    border-radius: 10px;
     font-size: 13px;
     font-weight: 500;
-    color: white;
+    color: rgba(6, 182, 212, 0.9);
     cursor: pointer;
     transition: all 0.2s ease;
   }
 
   .browse-btn:hover {
-    background: rgba(255, 255, 255, 0.1);
-    border-color: rgba(255, 255, 255, 0.2);
+    background: rgba(6, 182, 212, 0.15);
+    border-color: rgba(6, 182, 212, 0.4);
+    box-shadow: 0 0 15px rgba(6, 182, 212, 0.2);
   }
 
   .hidden-input {
@@ -411,22 +452,19 @@
     display: flex;
     align-items: center;
     gap: 16px;
-    margin: 24px 0;
+    margin: 28px 0;
   }
 
-  .divider::before,
-  .divider::after {
-    content: '';
+  .divider-line {
     flex: 1;
     height: 1px;
-    background: rgba(255, 255, 255, 0.08);
+    background: linear-gradient(90deg, transparent, rgba(6, 182, 212, 0.2), transparent);
   }
 
-  .divider span {
-    font-size: 12px;
-    color: rgba(255, 255, 255, 0.3);
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
+  .divider-text {
+    font-size: 10px;
+    color: rgba(6, 182, 212, 0.4);
+    letter-spacing: 0.2em;
   }
 
   .create-btn {
@@ -436,18 +474,21 @@
     justify-content: center;
     gap: 10px;
     padding: 16px 24px;
-    background: white;
-    border: none;
-    border-radius: 12px;
-    font-size: 14px;
+    background: linear-gradient(135deg, rgba(6, 182, 212, 0.15) 0%, rgba(6, 182, 212, 0.1) 100%);
+    border: 1px solid rgba(6, 182, 212, 0.3);
+    border-radius: 10px;
+    font-size: 13px;
     font-weight: 600;
-    color: black;
+    color: rgba(6, 182, 212, 0.95);
     cursor: pointer;
     transition: all 0.2s ease;
+    letter-spacing: 0.05em;
   }
 
   .create-btn:hover {
-    background: rgba(255, 255, 255, 0.9);
+    background: linear-gradient(135deg, rgba(6, 182, 212, 0.2) 0%, rgba(6, 182, 212, 0.15) 100%);
+    border-color: rgba(6, 182, 212, 0.5);
+    box-shadow: 0 0 20px rgba(6, 182, 212, 0.2);
     transform: translateY(-1px);
   }
 
@@ -462,9 +503,9 @@
   .password-input {
     width: 100%;
     padding: 14px 50px 14px 16px;
-    background: rgba(255, 255, 255, 0.04);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 12px;
+    background: rgba(6, 182, 212, 0.03);
+    border: 1px solid rgba(6, 182, 212, 0.15);
+    border-radius: 10px;
     font-size: 14px;
     color: white;
     transition: all 0.2s ease;
@@ -472,12 +513,13 @@
 
   .password-input:focus {
     outline: none;
-    background: rgba(255, 255, 255, 0.06);
-    border-color: rgba(255, 255, 255, 0.25);
+    background: rgba(6, 182, 212, 0.05);
+    border-color: rgba(6, 182, 212, 0.4);
+    box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.1);
   }
 
   .password-input::placeholder {
-    color: rgba(255, 255, 255, 0.3);
+    color: rgba(255, 255, 255, 0.25);
   }
 
   .show-btn {
@@ -487,37 +529,51 @@
     transform: translateY(-50%);
     background: none;
     border: none;
-    color: rgba(255, 255, 255, 0.4);
+    color: rgba(6, 182, 212, 0.4);
     cursor: pointer;
     padding: 4px;
     transition: color 0.2s ease;
   }
 
   .show-btn:hover {
-    color: white;
+    color: rgba(6, 182, 212, 0.8);
   }
 
   .requirements {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 10px;
     padding: 16px;
-    background: rgba(255, 255, 255, 0.02);
-    border-radius: 12px;
+    background: rgba(6, 182, 212, 0.03);
+    border: 1px solid rgba(6, 182, 212, 0.1);
+    border-radius: 10px;
     margin-bottom: 20px;
   }
 
   .req-item {
     display: flex;
     align-items: center;
-    gap: 10px;
-    font-size: 13px;
-    color: rgba(255, 255, 255, 0.4);
+    gap: 12px;
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.35);
     transition: color 0.2s ease;
   }
 
+  .req-indicator {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    transition: all 0.2s ease;
+  }
+
   .req-item.met {
-    color: #22c55e;
+    color: rgba(6, 182, 212, 0.9);
+  }
+
+  .req-item.met .req-indicator {
+    background: #06b6d4;
+    box-shadow: 0 0 8px rgba(6, 182, 212, 0.6);
   }
 
   .action-buttons {
@@ -532,18 +588,19 @@
     justify-content: center;
     gap: 10px;
     padding: 16px 24px;
-    background: white;
+    background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
     border: none;
-    border-radius: 12px;
-    font-size: 14px;
+    border-radius: 10px;
+    font-size: 13px;
     font-weight: 600;
     color: black;
     cursor: pointer;
     transition: all 0.2s ease;
+    letter-spacing: 0.05em;
   }
 
   .submit-btn:hover:not(:disabled) {
-    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 0 25px rgba(6, 182, 212, 0.5);
     transform: translateY(-1px);
   }
 
@@ -556,10 +613,10 @@
     padding: 16px 24px;
     background: transparent;
     border: 1px solid rgba(255, 255, 255, 0.15);
-    border-radius: 12px;
-    font-size: 14px;
+    border-radius: 10px;
+    font-size: 13px;
     font-weight: 500;
-    color: rgba(255, 255, 255, 0.7);
+    color: rgba(255, 255, 255, 0.6);
     cursor: pointer;
     transition: all 0.2s ease;
   }
@@ -580,23 +637,33 @@
 
   .security-footer {
     padding: 20px 32px;
-    border-top: 1px solid rgba(255, 255, 255, 0.06);
-    background: rgba(0, 0, 0, 0.2);
+    border-top: 1px solid rgba(6, 182, 212, 0.1);
+    background: rgba(0, 0, 0, 0.3);
   }
 
   .security-badges {
     display: flex;
     justify-content: center;
-    gap: 20px;
+    gap: 24px;
     flex-wrap: wrap;
   }
 
   .badge {
     display: flex;
     align-items: center;
-    gap: 6px;
-    font-size: 11px;
-    color: rgba(255, 255, 255, 0.4);
+    gap: 8px;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    color: rgba(6, 182, 212, 0.5);
+  }
+
+  .badge-dot {
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: rgba(6, 182, 212, 0.6);
+    box-shadow: 0 0 6px rgba(6, 182, 212, 0.4);
   }
 
   @keyframes scaleIn {
@@ -617,5 +684,10 @@
 
   @keyframes spin {
     to { transform: rotate(360deg); }
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
   }
 </style>

@@ -31,55 +31,195 @@
 
 <svelte:window on:keydown={handleKeyDown} />
 
-<nav class="border-b border-white/10 bg-black/90 backdrop-blur-sm sticky top-0 z-30 navbar-load">
+<nav class="cyber-navbar">
   <div class="container mx-auto px-4">
-    <div class="flex items-center justify-between h-14">
+    <div class="navbar-content">
       <!-- Left Actions -->
-      <div class="flex items-center gap-2">
+      <div class="nav-actions">
         <button
-          class="navbar-item {$isDirty ? 'mono-button-success' : 'text-white/40'}"
+          class="nav-btn"
+          class:save-active={$isDirty}
           on:click={handleSave}
           disabled={!$isDirty}
         >
-          <span class="flex items-center gap-2">
-            Save
-            {#if $isDirty}
-              <span class="w-1.5 h-1.5 bg-white unsaved-indicator"></span>
-            {/if}
-          </span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/>
+            <polyline points="17 21 17 13 7 13 7 21"/>
+            <polyline points="7 3 7 8 15 8"/>
+          </svg>
+          <span>Save</span>
+          {#if $isDirty}
+            <span class="save-dot"></span>
+          {/if}
         </button>
 
         <button
-          class="navbar-item text-white/60 hover:text-white"
+          class="nav-btn"
           on:click={() => dispatch('action', { action: 'export' })}
         >
-          Export
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="7 10 12 15 17 10"/>
+            <line x1="12" y1="15" x2="12" y2="3"/>
+          </svg>
+          <span>Export</span>
         </button>
 
         <button
-          class="navbar-item text-white/60 hover:text-white"
+          class="nav-btn"
           on:click={() => window.location.reload()}
         >
-          Switch DB
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+          </svg>
+          <span>Switch</span>
         </button>
       </div>
 
       <!-- Right Actions -->
-      <div class="flex items-center gap-3">
-        <div class="text-xs text-white/30 mr-2 hidden sm:block">
-          <kbd class="px-1.5 py-0.5 bg-white/5 border border-white/10 text-white/40">Ctrl</kbd>
-          <span class="mx-1">+</span>
-          <kbd class="px-1.5 py-0.5 bg-white/5 border border-white/10 text-white/40">S</kbd>
-          <span class="ml-2 text-white/30">to save</span>
+      <div class="nav-right">
+        <div class="keyboard-hint">
+          <kbd>Ctrl</kbd>
+          <span>+</span>
+          <kbd>S</kbd>
         </div>
 
-        <button
-          class="mono-button-danger px-3 py-1.5"
-          on:click={handleLogout}
-        >
-          Logout
+        <button class="logout-btn" on:click={handleLogout}>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+            <polyline points="16 17 21 12 16 7"/>
+            <line x1="21" y1="12" x2="9" y2="12"/>
+          </svg>
+          <span>Logout</span>
         </button>
       </div>
     </div>
   </div>
 </nav>
+
+<style>
+  .cyber-navbar {
+    background: rgba(0, 0, 0, 0.8);
+    border-bottom: 1px solid rgba(6, 182, 212, 0.1);
+    backdrop-filter: blur(12px);
+    position: sticky;
+    top: 0;
+    z-index: 30;
+  }
+
+  .navbar-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 48px;
+  }
+
+  .nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .nav-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.45);
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .nav-btn:hover:not(:disabled) {
+    color: rgba(6, 182, 212, 0.9);
+    background: rgba(6, 182, 212, 0.08);
+    border-color: rgba(6, 182, 212, 0.15);
+  }
+
+  .nav-btn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+
+  .nav-btn.save-active {
+    color: rgba(6, 182, 212, 0.95);
+    background: rgba(6, 182, 212, 0.1);
+    border-color: rgba(6, 182, 212, 0.25);
+  }
+
+  .nav-btn.save-active:hover {
+    background: rgba(6, 182, 212, 0.15);
+    border-color: rgba(6, 182, 212, 0.35);
+    box-shadow: 0 0 15px rgba(6, 182, 212, 0.2);
+  }
+
+  .save-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: #06b6d4;
+    box-shadow: 0 0 8px rgba(6, 182, 212, 0.8);
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .keyboard-hint {
+    display: none;
+    align-items: center;
+    gap: 4px;
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.25);
+  }
+
+  @media (min-width: 640px) {
+    .keyboard-hint {
+      display: flex;
+    }
+  }
+
+  .keyboard-hint kbd {
+    padding: 2px 6px;
+    background: rgba(6, 182, 212, 0.05);
+    border: 1px solid rgba(6, 182, 212, 0.15);
+    border-radius: 4px;
+    font-size: 10px;
+    color: rgba(6, 182, 212, 0.5);
+  }
+
+  .logout-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    background: rgba(239, 68, 68, 0.08);
+    border: 1px solid rgba(239, 68, 68, 0.2);
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 500;
+    color: rgba(239, 68, 68, 0.8);
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .logout-btn:hover {
+    background: rgba(239, 68, 68, 0.15);
+    border-color: rgba(239, 68, 68, 0.35);
+    color: rgba(239, 68, 68, 0.95);
+    box-shadow: 0 0 15px rgba(239, 68, 68, 0.15);
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+  }
+</style>

@@ -20,17 +20,56 @@
 </script>
 
 {#if show}
-  <div class="fixed top-20 right-4 z-50 animate-slide-in-right">
-    <div class="bg-black border border-white/30 px-6 py-3 shadow-[0_0_30px_rgba(255,255,255,0.1)]">
-      <p class="text-xs uppercase tracking-widest text-white">
-        {message}
-      </p>
+  <div class="toast-container">
+    <div class="toast">
+      <div class="toast-indicator"></div>
+      <p class="toast-message">{message}</p>
     </div>
   </div>
 {/if}
 
 <style>
-  @keyframes slide-in-right {
+  .toast-container {
+    position: fixed;
+    top: 80px;
+    right: 16px;
+    z-index: 50;
+    animation: slideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .toast {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 20px;
+    background: rgba(10, 10, 12, 0.95);
+    border: 1px solid rgba(6, 182, 212, 0.3);
+    border-radius: 8px;
+    box-shadow:
+      0 0 30px rgba(6, 182, 212, 0.15),
+      0 4px 20px rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(12px);
+  }
+
+  .toast-indicator {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #06b6d4;
+    box-shadow: 0 0 10px rgba(6, 182, 212, 0.8);
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  .toast-message {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(6, 182, 212, 0.9);
+    margin: 0;
+  }
+
+  @keyframes slideIn {
     from {
       transform: translateX(100%);
       opacity: 0;
@@ -41,7 +80,8 @@
     }
   }
 
-  .animate-slide-in-right {
-    animation: slide-in-right 0.2s ease-out;
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
   }
 </style>
