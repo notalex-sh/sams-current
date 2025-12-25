@@ -2,7 +2,7 @@
   import { createEventDispatcher } from 'svelte';
   import { addEntry, findDuplicates } from '$lib/stores/database';
   import { generatePassword, calculatePasswordStrength } from '$lib/utils/encryption';
-  import { isValidTotpSecret, parseOtpAuthUri } from '$lib/utils/totp';
+  import { parseOtpAuthUri } from '$lib/utils/totp';
   import PasswordStrengthMeter from './PasswordStrengthMeter.svelte';
 
   const dispatch = createEventDispatcher();
@@ -33,7 +33,6 @@
   let generatedPassword = '';
 
   $: passwordStrength = calculatePasswordStrength(password);
-  $: totpValid = !totpSecret || isValidTotpSecret(totpSecret);
   $: duplicates = (title || url || username) ? findDuplicates(title, url, username) : [];
   let showDuplicateWarning = false;
 
@@ -90,11 +89,6 @@
 
     if (duplicates.length > 0 && !showDuplicateWarning) {
       showDuplicateWarning = true;
-      return;
-    }
-
-    if (totpSecret && !isValidTotpSecret(totpSecret)) {
-      dispatch('notify', 'Invalid TOTP secret format');
       return;
     }
 
@@ -304,7 +298,6 @@
             on:input={handleTotpInput}
             placeholder="TOTP Secret or otpauth:// URI"
             class="form-input flex-1"
-            class:invalid={totpSecret && !totpValid}
           />
         {:else}
           <input
@@ -313,7 +306,6 @@
             on:input={handleTotpInput}
             placeholder="TOTP Secret or otpauth:// URI"
             class="form-input flex-1"
-            class:invalid={totpSecret && !totpValid}
           />
         {/if}
         <button
@@ -325,11 +317,7 @@
         </button>
       </div>
 
-      {#if totpSecret && !totpValid}
-        <p class="totp-error">Invalid secret format (must be Base32, min 16 chars)</p>
-      {:else}
-        <p class="totp-hint">Paste the setup key or scan QR code URI from your authenticator</p>
-      {/if}
+      <p class="totp-hint">Paste the setup key or scan QR code URI from your authenticator</p>
     </div>
 
     <!-- Expiry Section -->
@@ -486,11 +474,6 @@
 
   .form-input::placeholder {
     color: rgba(255, 255, 255, 0.25);
-  }
-
-  .form-input.invalid {
-    border-color: rgba(239, 68, 68, 0.5);
-    background: rgba(239, 68, 68, 0.05);
   }
 
   /* Warning Box */
@@ -712,12 +695,6 @@
   .totp-hint {
     font-size: 11px;
     color: rgba(255, 255, 255, 0.3);
-    margin: 0;
-  }
-
-  .totp-error {
-    font-size: 11px;
-    color: #ef4444;
     margin: 0;
   }
 

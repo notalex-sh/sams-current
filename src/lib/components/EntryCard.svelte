@@ -4,7 +4,6 @@
   import RegeneratePasswordModal from './RegeneratePasswordModal.svelte';
   import TotpDisplay from './TotpDisplay.svelte';
   import { differenceInDays, addDays } from 'date-fns';
-  import { isValidTotpSecret } from '$lib/utils/totp';
 
   const dispatch = createEventDispatcher();
 
@@ -18,7 +17,7 @@
   let showTotpSecret = false;
 
   $: expiryStatus = calculateExpiryStatus(entry);
-  $: hasTotpSecret = entry.totpSecret && isValidTotpSecret(entry.totpSecret);
+  $: hasTotpSecret = !!entry.totpSecret;
 
   /*
    * Prepends https:// to URLs that don't have a protocol.

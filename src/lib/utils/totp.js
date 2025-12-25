@@ -31,23 +31,6 @@ function base32Decode(encoded) {
 }
 
 /*
- * Validates a TOTP secret string.
- * Must be valid Base32 with minimum 16 characters (80 bits).
- */
-export function isValidTotpSecret(secret) {
-  if (!secret || typeof secret !== 'string') return false;
-
-  const cleaned = secret.replace(/\s+/g, '').toUpperCase().replace(/=+$/, '');
-  if (cleaned.length < 16) return false;
-
-  for (const char of cleaned) {
-    if (!BASE32_ALPHABET.includes(char)) return false;
-  }
-
-  return true;
-}
-
-/*
  * Generates a TOTP code using HMAC-SHA1 per RFC 6238.
  * Takes a Base32 secret and optional config (digits, period, timestamp).
  * Returns a zero-padded string of digits.
