@@ -59,10 +59,10 @@
       <div class="flex items-center justify-between">
         <div class="flex items-center gap-4">
           <div class="logo-container">
-            <img src="/logo.png" alt="SAMS" class="logo-image" />
+            <img src="/logo.png" alt="S.A.M.S." class="logo-image" />
           </div>
           <div>
-            <h1 class="cyber-title">S.A.M.S</h1>
+            <h1 class="cyber-title">S.A.M.S.</h1>
             <p class="cyber-subtitle">Secure Access Management System</p>
           </div>
 

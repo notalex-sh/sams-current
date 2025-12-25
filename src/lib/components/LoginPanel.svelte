@@ -89,7 +89,7 @@
     <div class="login-header">
       <div class="logo-glow"></div>
       <div class="logo">
-        <img src="/logo.png" alt="SAMS" class="logo-image" />
+        <img src="/logo.png" alt="S.A.M.S." class="logo-image" />
       </div>
       <h1 class="app-title">S.A.M.S.</h1>
       <p class="app-subtitle">Secure Access Management System</p>
