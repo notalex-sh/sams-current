@@ -211,8 +211,8 @@
     text-transform: uppercase;
   }
 
-  .stat-item.warning .stat-value { color: #f59e0b; }
-  .stat-item.danger .stat-value { color: #ef4444; }
+  .stat-item.warning .stat-value { color: rgba(255, 255, 255, 0.7); }
+  .stat-item.danger .stat-value { color: white; }
 
   .stat-divider {
     width: 1px;
@@ -307,12 +307,12 @@
 
   .tab-badge {
     padding: 2px 8px;
-    background: rgba(245, 158, 11, 0.2);
-    border: 1px solid rgba(245, 158, 11, 0.3);
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.25);
     border-radius: 10px;
     font-size: 11px;
     font-weight: 600;
-    color: #f59e0b;
+    color: white;
   }
 
   /* Filters */

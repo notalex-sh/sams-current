@@ -423,9 +423,9 @@
   }
 
   .action-btn.delete:hover {
-    background: rgba(239, 68, 68, 0.15);
-    color: #ef4444;
-    border-color: rgba(239, 68, 68, 0.3);
+    background: rgba(255, 255, 255, 0.15);
+    color: white;
+    border-color: rgba(255, 255, 255, 0.3);
   }
 
   .entry-content {
@@ -533,11 +533,11 @@
     animation: pulse 2s ease-in-out infinite;
   }
 
-  .expiry-status.expired { color: #ef4444; }
-  .expiry-status.expired .status-dot { background: #ef4444; }
+  .expiry-status.expired { color: white; }
+  .expiry-status.expired .status-dot { background: white; }
 
-  .expiry-status.warning { color: #f59e0b; }
-  .expiry-status.warning .status-dot { background: #f59e0b; }
+  .expiry-status.warning { color: rgba(255, 255, 255, 0.7); }
+  .expiry-status.warning .status-dot { background: rgba(255, 255, 255, 0.7); }
 
   .expiry-status.ok { color: rgba(255, 255, 255, 0.4); }
   .expiry-status.never { color: rgba(255, 255, 255, 0.4); }
@@ -553,21 +553,21 @@
   }
 
   .regen-btn.danger {
-    color: #ef4444;
-    border-color: rgba(239, 68, 68, 0.4);
+    color: white;
+    border-color: rgba(255, 255, 255, 0.4);
   }
 
   .regen-btn.danger:hover {
-    background: rgba(239, 68, 68, 0.15);
+    background: rgba(255, 255, 255, 0.15);
   }
 
   .regen-btn.warning {
-    color: #f59e0b;
-    border-color: rgba(245, 158, 11, 0.4);
+    color: rgba(255, 255, 255, 0.7);
+    border-color: rgba(255, 255, 255, 0.3);
   }
 
   .regen-btn.warning:hover {
-    background: rgba(245, 158, 11, 0.15);
+    background: rgba(255, 255, 255, 0.1);
   }
 
   .regen-btn.subtle {

@@ -113,8 +113,8 @@
 
 <style>
   .totp-container {
-    background: linear-gradient(135deg, rgba(99, 102, 241, 0.15) 0%, rgba(139, 92, 246, 0.15) 100%);
-    border: 1px solid rgba(139, 92, 246, 0.3);
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 12px;
     padding: 12px 16px;
     margin-top: 12px;
@@ -154,12 +154,12 @@
   }
 
   .timer-progress {
-    stroke: rgba(139, 92, 246, 0.8);
+    stroke: rgba(255, 255, 255, 0.6);
     transition: stroke-dashoffset 0.3s ease;
   }
 
   .timer-progress.low {
-    stroke: rgba(239, 68, 68, 0.8);
+    stroke: rgba(255, 255, 255, 0.9);
   }
 
   .timer-text {
@@ -169,7 +169,7 @@
   }
 
   .totp-timer.low .timer-text {
-    color: rgba(239, 68, 68, 0.9);
+    color: rgba(255, 255, 255, 0.95);
     animation: pulse-warning 1s ease-in-out infinite;
   }
 
@@ -188,7 +188,7 @@
 
   .totp-code:hover {
     background: rgba(0, 0, 0, 0.4);
-    border-color: rgba(139, 92, 246, 0.5);
+    border-color: rgba(255, 255, 255, 0.3);
   }
 
   .totp-code:active {
