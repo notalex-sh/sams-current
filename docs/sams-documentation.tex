@@ -4,17 +4,17 @@
 \usepackage{lmodern}
 \usepackage[margin=0.8in]{geometry}
 \usepackage{graphicx}
-\usepackage{hyperref}
 \usepackage{xcolor}
+\usepackage{hyperref}
 \usepackage{listings}
 \usepackage{booktabs}
 \usepackage{enumitem}
 \usepackage{fancyhdr}
 \usepackage{titlesec}
 \usepackage{pagecolor}
-\usepackage{afterpage}
-\usepackage{tikz}
-\usepackage{tcolorbox}
+\usepackage[most]{tcolorbox}
+
+% Use Helvetica-like font
 \usepackage{helvet}
 \renewcommand{\familydefault}{\sfdefault}
 
@@ -104,7 +104,7 @@
     }
 }
 
-% Custom description list styling
+% Custom list styling
 \setlist[description]{
     font=\color{accent}\bfseries\ttfamily,
     leftmargin=3cm,
@@ -113,7 +113,7 @@
 }
 
 \setlist[itemize]{
-    label=\color{textmuted}$\bullet$,
+    label=\color{textmuted}\textbullet,
     leftmargin=1.5em
 }
 
