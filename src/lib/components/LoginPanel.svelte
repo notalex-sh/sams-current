@@ -274,7 +274,7 @@
 
 <style>
   .login-container {
-    height: 100%;
+    min-height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -283,15 +283,15 @@
 
   .login-card {
     width: 100%;
-    max-width: 440px;
+    max-width: 420px;
     background: rgba(10, 10, 12, 0.95);
-    border: 1px solid rgba(6, 182, 212, 0.15);
-    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
     overflow: hidden;
     animation: scaleIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     box-shadow:
-      0 0 60px rgba(6, 182, 212, 0.1),
-      0 0 100px rgba(6, 182, 212, 0.05),
+      0 0 60px rgba(255, 255, 255, 0.03),
+      0 0 100px rgba(255, 255, 255, 0.02),
       inset 0 1px 0 rgba(255, 255, 255, 0.05);
   }
 
@@ -300,29 +300,29 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 48px 32px 32px;
-    background: linear-gradient(180deg, rgba(6, 182, 212, 0.08) 0%, transparent 100%);
+    padding: 32px 24px 24px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.03) 0%, transparent 100%);
   }
 
   .logo-glow {
     position: absolute;
-    top: 30px;
-    width: 120px;
-    height: 120px;
-    background: radial-gradient(circle, rgba(6, 182, 212, 0.3) 0%, transparent 70%);
-    filter: blur(30px);
+    top: 20px;
+    width: 100px;
+    height: 100px;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.15) 0%, transparent 70%);
+    filter: blur(25px);
     pointer-events: none;
   }
 
   .logo {
     position: relative;
-    width: 80px;
-    height: 80px;
+    width: 64px;
+    height: 64px;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 24px;
-    filter: drop-shadow(0 0 20px rgba(6, 182, 212, 0.5));
+    margin-bottom: 16px;
+    filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.3));
     animation: float 4s ease-in-out infinite;
   }
 
@@ -333,63 +333,63 @@
   }
 
   .app-title {
-    font-size: 32px;
+    font-size: 26px;
     font-weight: 700;
     letter-spacing: 0.25em;
     color: white;
     margin: 0;
-    text-shadow: 0 0 30px rgba(6, 182, 212, 0.4);
+    text-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
   }
 
   .app-subtitle {
-    font-size: 11px;
-    letter-spacing: 0.15em;
-    color: rgba(6, 182, 212, 0.6);
-    margin: 10px 0 0 0;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    color: rgba(255, 255, 255, 0.4);
+    margin: 8px 0 0 0;
     text-transform: uppercase;
   }
 
   .header-line {
     position: absolute;
     bottom: 0;
-    left: 32px;
-    right: 32px;
+    left: 24px;
+    right: 24px;
     height: 1px;
     background: linear-gradient(90deg,
       transparent,
-      rgba(6, 182, 212, 0.4) 30%,
-      rgba(6, 182, 212, 0.4) 70%,
+      rgba(255, 255, 255, 0.2) 30%,
+      rgba(255, 255, 255, 0.2) 70%,
       transparent
     );
   }
 
   .login-body {
-    padding: 32px;
+    padding: 24px;
   }
 
   .section {
-    margin-bottom: 20px;
+    margin-bottom: 16px;
   }
 
   .section-label {
     display: flex;
     align-items: center;
     gap: 8px;
-    font-size: 11px;
+    font-size: 10px;
     font-weight: 600;
     letter-spacing: 0.1em;
-    color: rgba(6, 182, 212, 0.7);
-    margin-bottom: 12px;
+    color: rgba(255, 255, 255, 0.5);
+    margin-bottom: 10px;
     text-transform: uppercase;
   }
 
   .label-icon {
-    color: rgba(6, 182, 212, 0.5);
+    color: rgba(255, 255, 255, 0.3);
   }
 
   .file-input-wrapper {
     display: flex;
-    gap: 10px;
+    gap: 8px;
   }
 
   .file-display {
@@ -397,24 +397,24 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    padding: 14px 16px;
-    background: rgba(6, 182, 212, 0.03);
-    border: 1px solid rgba(6, 182, 212, 0.1);
-    border-radius: 10px;
+    padding: 12px 14px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
     transition: all 0.2s ease;
   }
 
   .file-display.has-file {
-    border-color: rgba(6, 182, 212, 0.3);
-    background: rgba(6, 182, 212, 0.05);
+    border-color: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.05);
   }
 
   .file-display.has-file svg {
-    color: rgba(6, 182, 212, 0.8);
+    color: rgba(255, 255, 255, 0.7);
   }
 
   .file-name {
-    font-size: 13px;
+    font-size: 12px;
     color: white;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -422,26 +422,26 @@
   }
 
   .file-placeholder {
-    font-size: 13px;
+    font-size: 12px;
     color: rgba(255, 255, 255, 0.25);
   }
 
   .browse-btn {
-    padding: 14px 20px;
-    background: rgba(6, 182, 212, 0.1);
-    border: 1px solid rgba(6, 182, 212, 0.25);
-    border-radius: 10px;
-    font-size: 13px;
+    padding: 12px 16px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 8px;
+    font-size: 12px;
     font-weight: 500;
-    color: rgba(6, 182, 212, 0.9);
+    color: rgba(255, 255, 255, 0.8);
     cursor: pointer;
     transition: all 0.2s ease;
   }
 
   .browse-btn:hover {
-    background: rgba(6, 182, 212, 0.15);
-    border-color: rgba(6, 182, 212, 0.4);
-    box-shadow: 0 0 15px rgba(6, 182, 212, 0.2);
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.05);
   }
 
   .hidden-input {
@@ -451,19 +451,19 @@
   .divider {
     display: flex;
     align-items: center;
-    gap: 16px;
-    margin: 28px 0;
+    gap: 12px;
+    margin: 20px 0;
   }
 
   .divider-line {
     flex: 1;
     height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(6, 182, 212, 0.2), transparent);
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
   }
 
   .divider-text {
-    font-size: 10px;
-    color: rgba(6, 182, 212, 0.4);
+    font-size: 9px;
+    color: rgba(255, 255, 255, 0.25);
     letter-spacing: 0.2em;
   }
 
@@ -473,22 +473,22 @@
     align-items: center;
     justify-content: center;
     gap: 10px;
-    padding: 16px 24px;
-    background: linear-gradient(135deg, rgba(6, 182, 212, 0.15) 0%, rgba(6, 182, 212, 0.1) 100%);
-    border: 1px solid rgba(6, 182, 212, 0.3);
-    border-radius: 10px;
-    font-size: 13px;
+    padding: 14px 20px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 8px;
+    font-size: 12px;
     font-weight: 600;
-    color: rgba(6, 182, 212, 0.95);
+    color: rgba(255, 255, 255, 0.85);
     cursor: pointer;
     transition: all 0.2s ease;
     letter-spacing: 0.05em;
   }
 
   .create-btn:hover {
-    background: linear-gradient(135deg, rgba(6, 182, 212, 0.2) 0%, rgba(6, 182, 212, 0.15) 100%);
-    border-color: rgba(6, 182, 212, 0.5);
-    box-shadow: 0 0 20px rgba(6, 182, 212, 0.2);
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.25);
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.05);
     transform: translateY(-1px);
   }
 
@@ -502,20 +502,20 @@
 
   .password-input {
     width: 100%;
-    padding: 14px 50px 14px 16px;
-    background: rgba(6, 182, 212, 0.03);
-    border: 1px solid rgba(6, 182, 212, 0.15);
-    border-radius: 10px;
-    font-size: 14px;
+    padding: 12px 44px 12px 14px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    font-size: 13px;
     color: white;
     transition: all 0.2s ease;
   }
 
   .password-input:focus {
     outline: none;
-    background: rgba(6, 182, 212, 0.05);
-    border-color: rgba(6, 182, 212, 0.4);
-    box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.1);
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.3);
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.05);
   }
 
   .password-input::placeholder {
@@ -524,61 +524,61 @@
 
   .show-btn {
     position: absolute;
-    right: 14px;
+    right: 12px;
     top: 50%;
     transform: translateY(-50%);
     background: none;
     border: none;
-    color: rgba(6, 182, 212, 0.4);
+    color: rgba(255, 255, 255, 0.3);
     cursor: pointer;
     padding: 4px;
     transition: color 0.2s ease;
   }
 
   .show-btn:hover {
-    color: rgba(6, 182, 212, 0.8);
+    color: rgba(255, 255, 255, 0.7);
   }
 
   .requirements {
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    padding: 16px;
-    background: rgba(6, 182, 212, 0.03);
-    border: 1px solid rgba(6, 182, 212, 0.1);
-    border-radius: 10px;
-    margin-bottom: 20px;
+    gap: 8px;
+    padding: 12px;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 8px;
+    margin-bottom: 16px;
   }
 
   .req-item {
     display: flex;
     align-items: center;
-    gap: 12px;
-    font-size: 12px;
-    color: rgba(255, 255, 255, 0.35);
+    gap: 10px;
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.3);
     transition: color 0.2s ease;
   }
 
   .req-indicator {
-    width: 6px;
-    height: 6px;
+    width: 5px;
+    height: 5px;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.15);
     transition: all 0.2s ease;
   }
 
   .req-item.met {
-    color: rgba(6, 182, 212, 0.9);
+    color: rgba(255, 255, 255, 0.8);
   }
 
   .req-item.met .req-indicator {
-    background: #06b6d4;
-    box-shadow: 0 0 8px rgba(6, 182, 212, 0.6);
+    background: #ffffff;
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
   }
 
   .action-buttons {
     display: flex;
-    gap: 10px;
+    gap: 8px;
   }
 
   .submit-btn {
@@ -586,12 +586,12 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 10px;
-    padding: 16px 24px;
-    background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
+    gap: 8px;
+    padding: 14px 20px;
+    background: #ffffff;
     border: none;
-    border-radius: 10px;
-    font-size: 13px;
+    border-radius: 8px;
+    font-size: 12px;
     font-weight: 600;
     color: black;
     cursor: pointer;
@@ -600,7 +600,7 @@
   }
 
   .submit-btn:hover:not(:disabled) {
-    box-shadow: 0 0 25px rgba(6, 182, 212, 0.5);
+    box-shadow: 0 0 25px rgba(255, 255, 255, 0.3);
     transform: translateY(-1px);
   }
 
@@ -610,11 +610,11 @@
   }
 
   .cancel-btn {
-    padding: 16px 24px;
+    padding: 14px 20px;
     background: transparent;
     border: 1px solid rgba(255, 255, 255, 0.15);
-    border-radius: 10px;
-    font-size: 13px;
+    border-radius: 8px;
+    font-size: 12px;
     font-weight: 500;
     color: rgba(255, 255, 255, 0.6);
     cursor: pointer;
@@ -627,8 +627,8 @@
   }
 
   .spinner {
-    width: 16px;
-    height: 16px;
+    width: 14px;
+    height: 14px;
     border: 2px solid rgba(0, 0, 0, 0.2);
     border-top-color: black;
     border-radius: 50%;
@@ -636,34 +636,34 @@
   }
 
   .security-footer {
-    padding: 20px 32px;
-    border-top: 1px solid rgba(6, 182, 212, 0.1);
+    padding: 16px 24px;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
     background: rgba(0, 0, 0, 0.3);
   }
 
   .security-badges {
     display: flex;
     justify-content: center;
-    gap: 24px;
+    gap: 20px;
     flex-wrap: wrap;
   }
 
   .badge {
     display: flex;
     align-items: center;
-    gap: 8px;
-    font-size: 10px;
+    gap: 6px;
+    font-size: 9px;
     font-weight: 500;
     letter-spacing: 0.1em;
-    color: rgba(6, 182, 212, 0.5);
+    color: rgba(255, 255, 255, 0.35);
   }
 
   .badge-dot {
     width: 4px;
     height: 4px;
     border-radius: 50%;
-    background: rgba(6, 182, 212, 0.6);
-    box-shadow: 0 0 6px rgba(6, 182, 212, 0.4);
+    background: rgba(255, 255, 255, 0.4);
+    box-shadow: 0 0 6px rgba(255, 255, 255, 0.2);
   }
 
   @keyframes scaleIn {

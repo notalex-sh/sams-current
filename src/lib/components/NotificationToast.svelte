@@ -43,10 +43,10 @@
     gap: 12px;
     padding: 14px 20px;
     background: rgba(10, 10, 12, 0.95);
-    border: 1px solid rgba(6, 182, 212, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.15);
     border-radius: 8px;
     box-shadow:
-      0 0 30px rgba(6, 182, 212, 0.15),
+      0 0 30px rgba(255, 255, 255, 0.05),
       0 4px 20px rgba(0, 0, 0, 0.4);
     backdrop-filter: blur(12px);
   }
@@ -55,8 +55,8 @@
     width: 6px;
     height: 6px;
     border-radius: 50%;
-    background: #06b6d4;
-    box-shadow: 0 0 10px rgba(6, 182, 212, 0.8);
+    background: #ffffff;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
     animation: pulse 2s ease-in-out infinite;
   }
 
@@ -65,7 +65,7 @@
     font-weight: 500;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: rgba(6, 182, 212, 0.9);
+    color: rgba(255, 255, 255, 0.8);
     margin: 0;
   }
 

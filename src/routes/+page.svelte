@@ -92,7 +92,7 @@
     <Navbar on:action={handleNavAction} />
   {/if}
 
-  <main class="flex-1 min-h-0 overflow-hidden {$isAuthenticated ? 'container mx-auto px-4 py-4' : ''} fade-in">
+  <main class="flex-1 min-h-0 overflow-auto {$isAuthenticated ? 'container mx-auto px-4 py-4' : ''} fade-in">
     {#if !$isAuthenticated}
       <LoginPanel on:notify={(e) => notify(e.detail)} />
     {:else}
@@ -136,9 +136,9 @@
     position: fixed;
     inset: 0;
     background:
-      radial-gradient(ellipse at 50% 0%, rgba(6, 182, 212, 0.08) 0%, transparent 50%),
-      radial-gradient(ellipse at 100% 100%, rgba(139, 92, 246, 0.05) 0%, transparent 40%),
-      radial-gradient(ellipse at 0% 100%, rgba(6, 182, 212, 0.05) 0%, transparent 40%);
+      radial-gradient(ellipse at 50% 0%, rgba(255, 255, 255, 0.03) 0%, transparent 50%),
+      radial-gradient(ellipse at 100% 100%, rgba(255, 255, 255, 0.02) 0%, transparent 40%),
+      radial-gradient(ellipse at 0% 100%, rgba(255, 255, 255, 0.02) 0%, transparent 40%);
     pointer-events: none;
     z-index: 0;
   }
@@ -151,8 +151,8 @@
       0deg,
       transparent,
       transparent 2px,
-      rgba(0, 0, 0, 0.03) 2px,
-      rgba(0, 0, 0, 0.03) 4px
+      rgba(0, 0, 0, 0.02) 2px,
+      rgba(0, 0, 0, 0.02) 4px
     );
     pointer-events: none;
     z-index: 1;
@@ -162,7 +162,7 @@
   .header-cyber {
     position: relative;
     background: rgba(0, 0, 0, 0.9);
-    border-bottom: 1px solid rgba(6, 182, 212, 0.2);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(12px);
     animation: slideDown 0.6s cubic-bezier(0.16, 1, 0.3, 1);
     flex-shrink: 0;
@@ -176,12 +176,12 @@
     height: 1px;
     background: linear-gradient(90deg,
       transparent,
-      rgba(6, 182, 212, 0.5) 20%,
-      rgba(6, 182, 212, 0.8) 50%,
-      rgba(6, 182, 212, 0.5) 80%,
+      rgba(255, 255, 255, 0.3) 20%,
+      rgba(255, 255, 255, 0.5) 50%,
+      rgba(255, 255, 255, 0.3) 80%,
       transparent
     );
-    box-shadow: 0 0 20px rgba(6, 182, 212, 0.3);
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
   }
 
   /* Logo */
@@ -191,12 +191,12 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    filter: drop-shadow(0 0 8px rgba(6, 182, 212, 0.4));
+    filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.2));
     transition: filter 0.3s ease;
   }
 
   .logo-container:hover {
-    filter: drop-shadow(0 0 12px rgba(6, 182, 212, 0.6));
+    filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.4));
   }
 
   .logo-image {
@@ -211,14 +211,14 @@
     font-weight: 700;
     letter-spacing: 0.3em;
     color: white;
-    text-shadow: 0 0 20px rgba(6, 182, 212, 0.3);
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
   }
 
   .cyber-subtitle {
     font-size: 9px;
     text-transform: uppercase;
     letter-spacing: 0.15em;
-    color: rgba(6, 182, 212, 0.6);
+    color: rgba(255, 255, 255, 0.4);
     margin-top: 2px;
   }
 
@@ -227,17 +227,17 @@
     font-size: 11px;
     margin-left: 8px;
     padding: 4px 10px;
-    background: rgba(6, 182, 212, 0.1);
-    border: 1px solid rgba(6, 182, 212, 0.2);
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 4px;
   }
 
   .bracket {
-    color: rgba(6, 182, 212, 0.4);
+    color: rgba(255, 255, 255, 0.3);
   }
 
   .db-name {
-    color: rgba(6, 182, 212, 0.8);
+    color: rgba(255, 255, 255, 0.7);
   }
 
   .unsaved-dot {
@@ -258,8 +258,8 @@
   }
 
   .status-indicator.authenticated {
-    background: rgba(6, 182, 212, 0.1);
-    border-color: rgba(6, 182, 212, 0.3);
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.2);
   }
 
   .status-dot {
@@ -271,8 +271,8 @@
   }
 
   .status-indicator.authenticated .status-dot {
-    background: #06b6d4;
-    box-shadow: 0 0 8px rgba(6, 182, 212, 0.8);
+    background: #ffffff;
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
     animation: pulse 2s ease-in-out infinite;
   }
 
@@ -285,12 +285,12 @@
   }
 
   .status-indicator.authenticated .status-text {
-    color: rgba(6, 182, 212, 0.9);
+    color: rgba(255, 255, 255, 0.9);
   }
 
   /* Footer */
   .cyber-footer {
-    border-top: 1px solid rgba(6, 182, 212, 0.15);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
     background: rgba(0, 0, 0, 0.5);
     padding: 10px 0;
     flex-shrink: 0;
@@ -311,15 +311,15 @@
     font-size: 9px;
     font-weight: 500;
     letter-spacing: 0.1em;
-    color: rgba(6, 182, 212, 0.5);
+    color: rgba(255, 255, 255, 0.35);
     padding: 2px 8px;
-    background: rgba(6, 182, 212, 0.05);
-    border: 1px solid rgba(6, 182, 212, 0.1);
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.06);
     border-radius: 3px;
   }
 
   .tech-divider {
-    color: rgba(6, 182, 212, 0.2);
+    color: rgba(255, 255, 255, 0.15);
     font-size: 10px;
   }
 

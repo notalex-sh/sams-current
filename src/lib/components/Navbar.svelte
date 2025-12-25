@@ -100,7 +100,7 @@
 <style>
   .cyber-navbar {
     background: rgba(0, 0, 0, 0.8);
-    border-bottom: 1px solid rgba(6, 182, 212, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
     backdrop-filter: blur(12px);
     position: sticky;
     top: 0;
@@ -136,9 +136,9 @@
   }
 
   .nav-btn:hover:not(:disabled) {
-    color: rgba(6, 182, 212, 0.9);
-    background: rgba(6, 182, 212, 0.08);
-    border-color: rgba(6, 182, 212, 0.15);
+    color: rgba(255, 255, 255, 0.9);
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(255, 255, 255, 0.1);
   }
 
   .nav-btn:disabled {
@@ -147,23 +147,23 @@
   }
 
   .nav-btn.save-active {
-    color: rgba(6, 182, 212, 0.95);
-    background: rgba(6, 182, 212, 0.1);
-    border-color: rgba(6, 182, 212, 0.25);
+    color: rgba(255, 255, 255, 0.95);
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.15);
   }
 
   .nav-btn.save-active:hover {
-    background: rgba(6, 182, 212, 0.15);
-    border-color: rgba(6, 182, 212, 0.35);
-    box-shadow: 0 0 15px rgba(6, 182, 212, 0.2);
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.05);
   }
 
   .save-dot {
     width: 5px;
     height: 5px;
     border-radius: 50%;
-    background: #06b6d4;
-    box-shadow: 0 0 8px rgba(6, 182, 212, 0.8);
+    background: #ffffff;
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
     animation: pulse 2s ease-in-out infinite;
   }
 
@@ -189,11 +189,11 @@
 
   .keyboard-hint kbd {
     padding: 2px 6px;
-    background: rgba(6, 182, 212, 0.05);
-    border: 1px solid rgba(6, 182, 212, 0.15);
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 4px;
     font-size: 10px;
-    color: rgba(6, 182, 212, 0.5);
+    color: rgba(255, 255, 255, 0.4);
   }
 
   .logout-btn {
@@ -201,21 +201,21 @@
     align-items: center;
     gap: 6px;
     padding: 8px 14px;
-    background: rgba(239, 68, 68, 0.08);
-    border: 1px solid rgba(239, 68, 68, 0.2);
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 6px;
     font-size: 12px;
     font-weight: 500;
-    color: rgba(239, 68, 68, 0.8);
+    color: rgba(255, 255, 255, 0.5);
     cursor: pointer;
     transition: all 0.2s ease;
   }
 
   .logout-btn:hover {
-    background: rgba(239, 68, 68, 0.15);
-    border-color: rgba(239, 68, 68, 0.35);
-    color: rgba(239, 68, 68, 0.95);
-    box-shadow: 0 0 15px rgba(239, 68, 68, 0.15);
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.2);
+    color: rgba(255, 255, 255, 0.8);
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.03);
   }
 
   @keyframes pulse {
