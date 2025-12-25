@@ -1,0 +1,488 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+
+% Colors
+\definecolor{darkgray}{RGB}{30,30,30}
+\definecolor{lightgray}{RGB}{240,240,240}
+\definecolor{accentgray}{RGB}{100,100,100}
+
+% Hyperref setup
+\hypersetup{
+    colorlinks=true,
+    linkcolor=darkgray,
+    urlcolor=accentgray,
+    pdftitle={S.A.M.S. Documentation},
+    pdfauthor={S.A.M.S.}
+}
+
+% Header/Footer
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\textsc{S.A.M.S.}}
+\fancyhead[R]{\textsc{Documentation}}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+% Section styling
+\titleformat{\section}{\Large\bfseries\scshape}{}{0em}{}[\titlerule]
+\titleformat{\subsection}{\large\bfseries}{}{0em}{}
+
+% Code listing style
+\lstset{
+    basicstyle=\ttfamily\small,
+    backgroundcolor=\color{lightgray},
+    frame=single,
+    framerule=0pt,
+    breaklines=true,
+    columns=fullflexible
+}
+
+\begin{document}
+
+% Title Page
+\begin{titlepage}
+    \centering
+    \vspace*{1cm}
+
+    \includegraphics[width=0.3\textwidth]{logo.png}\\[1cm]
+
+    {\Huge\bfseries\scshape S.A.M.S.}\\[0.5cm]
+    {\Large Secure Access Management System}\\[2cm]
+
+    {\large\textsc{User Guide \& Security Overview}}\\[1cm]
+
+    \vfill
+
+    {\normalsize Version 1.0}\\[0.5cm]
+    {\normalsize\today}
+
+    \vspace{1cm}
+
+    \rule{\textwidth}{0.4pt}\\[0.5cm]
+    {\small AES-256-GCM \textbullet{} Argon2id \textbullet{} Local-Only Storage}
+
+\end{titlepage}
+
+\tableofcontents
+\newpage
+
+% ============================================================================
+\part{User Guide}
+% ============================================================================
+
+\section{Introduction}
+
+S.A.M.S. (Secure Access Management System) is a local-first password manager designed for security-conscious users. All data is encrypted and stored entirely on your device---no cloud, no servers, no third parties.
+
+\subsection{Key Features}
+
+\begin{itemize}[leftmargin=*]
+    \item \textbf{Military-Grade Encryption}: AES-256-GCM with Argon2id key derivation
+    \item \textbf{TOTP Support}: Built-in two-factor authentication code generation
+    \item \textbf{Password Generator}: Cryptographically secure password creation
+    \item \textbf{Password Expiry Tracking}: Automatic reminders for credential rotation
+    \item \textbf{Offline Operation}: Works without internet connection
+    \item \textbf{Zero Knowledge}: Your master password never leaves your device
+\end{itemize}
+
+\section{Getting Started}
+
+\subsection{Creating a New Database}
+
+\begin{enumerate}
+    \item Launch S.A.M.S. in your web browser
+    \item Click \textbf{``Initialize New Database''}
+    \item Enter a strong master password (minimum 8 characters)
+    \item Confirm your master password
+    \item Click \textbf{``Create Database''}
+\end{enumerate}
+
+\textbf{Important}: Your master password is the only way to access your data. There is no recovery mechanism---if you forget it, your data is permanently inaccessible.
+
+\subsection{Opening an Existing Database}
+
+\begin{enumerate}
+    \item Click \textbf{``Browse''} to select your \texttt{.sams} file
+    \item Enter your master password
+    \item Click \textbf{``Unlock''}
+\end{enumerate}
+
+\section{Managing Entries}
+
+\subsection{Adding a New Entry}
+
+The entry form (left sidebar) allows you to store credentials:
+
+\begin{description}[leftmargin=!,labelwidth=2.5cm]
+    \item[Title] Required. A name for the entry (e.g., ``GitHub'')
+    \item[URL] The website address
+    \item[Username] Your login username or email
+    \item[Password] Your password (use the generator for secure passwords)
+    \item[TOTP Secret] Optional. Base32 secret for 2FA codes
+    \item[Docs URL] Link to documentation or admin panel
+    \item[Tags] Comma-separated labels for organization
+    \item[Notes] Additional information
+    \item[Expiry] Password expiration period (or ``Never expire'')
+\end{description}
+
+\subsection{Using the Password Generator}
+
+\begin{enumerate}
+    \item Set desired password length (default: 16 characters)
+    \item Select character types:
+    \begin{itemize}
+        \item A-Z (uppercase letters)
+        \item a-z (lowercase letters)
+        \item 0-9 (numbers)
+        \item !@\# (symbols)
+    \end{itemize}
+    \item Click \textbf{``Generate''}
+    \item Preview the password and click \textbf{``Use''} to apply it
+\end{enumerate}
+
+\subsection{Setting Up TOTP (Two-Factor Authentication)}
+
+S.A.M.S. can generate 6-digit TOTP codes for your accounts:
+
+\begin{enumerate}
+    \item When setting up 2FA on a website, look for the ``setup key'' or ``secret''
+    \item Paste it into the TOTP Secret field, or paste the full \texttt{otpauth://} URI
+    \item S.A.M.S. will automatically extract and store the secret
+    \item TOTP codes appear on entry cards with a countdown timer
+\end{enumerate}
+
+\textbf{Tip}: Click on the TOTP code to copy it to your clipboard.
+
+\subsection{Editing and Deleting Entries}
+
+\begin{itemize}
+    \item Hover over an entry card to reveal action buttons
+    \item Click the \textbf{pencil icon} to edit
+    \item Click the \textbf{trash icon} to delete (requires confirmation)
+\end{itemize}
+
+\section{Search and Organization}
+
+\subsection{Tabs}
+
+\begin{description}[leftmargin=!,labelwidth=2cm]
+    \item[All] Shows all entries
+    \item[Logins] Entries with passwords
+    \item[Bookmarks] Entries without passwords (URL-only)
+    \item[Expiring] Entries with passwords expiring within 14 days
+\end{description}
+
+\subsection{Search}
+
+Type in the search box to filter entries by:
+\begin{itemize}
+    \item Title
+    \item URL
+    \item Username
+    \item Notes
+    \item Tags
+\end{itemize}
+
+\subsection{Sorting}
+
+Use the sort dropdown to order entries by:
+\begin{itemize}
+    \item Newest first
+    \item Oldest first
+    \item Alphabetical (by title)
+    \item Expiry date
+\end{itemize}
+
+\section{Saving Your Data}
+
+\subsection{Manual Save}
+
+\begin{itemize}
+    \item Click \textbf{``Save''} in the navigation bar, or
+    \item Press \textbf{Ctrl+S} (Windows/Linux) or \textbf{Cmd+S} (Mac)
+\end{itemize}
+
+An asterisk (*) in the page title indicates unsaved changes.
+
+\subsection{Exporting Data}
+
+\begin{enumerate}
+    \item Click \textbf{``Export''} in the navigation bar
+    \item Choose whether to include passwords
+    \item Click \textbf{``Export CSV''} to download
+\end{enumerate}
+
+\textbf{Warning}: CSV exports are unencrypted plain text. Handle with care.
+
+\section{Keyboard Shortcuts}
+
+\begin{center}
+\begin{tabular}{ll}
+\toprule
+\textbf{Shortcut} & \textbf{Action} \\
+\midrule
+Ctrl/Cmd + S & Save database \\
+Esc & Close modal dialogs \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\newpage
+
+% ============================================================================
+\part{Security Overview}
+% ============================================================================
+
+\section{Architecture}
+
+S.A.M.S. follows a \textbf{zero-knowledge, local-first} architecture:
+
+\begin{itemize}
+    \item All encryption/decryption happens in your browser
+    \item No data is transmitted to any server
+    \item Your master password never leaves your device
+    \item Database files are fully encrypted at rest
+\end{itemize}
+
+\section{Encryption}
+
+\subsection{Cipher: AES-256-GCM}
+
+S.A.M.S. uses \textbf{AES-256-GCM} (Advanced Encryption Standard with Galois/Counter Mode):
+
+\begin{itemize}
+    \item \textbf{256-bit key}: Provides $2^{256}$ possible keys
+    \item \textbf{Authenticated encryption}: Detects tampering
+    \item \textbf{12-byte IV}: Unique per encryption operation
+    \item \textbf{NIST-approved}: Standard for classified government data
+\end{itemize}
+
+\subsection{Key Derivation: Argon2id}
+
+The master password is transformed into an encryption key using \textbf{Argon2id}:
+
+\begin{center}
+\begin{tabular}{ll}
+\toprule
+\textbf{Parameter} & \textbf{Value} \\
+\midrule
+Algorithm & Argon2id (hybrid) \\
+Time Cost & 3 iterations \\
+Memory Cost & 128 MB \\
+Parallelism & 1 \\
+Output Length & 256 bits (32 bytes) \\
+Salt Length & 128 bits (16 bytes) \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\textbf{Why Argon2id?}
+\begin{itemize}
+    \item Winner of the Password Hashing Competition (2015)
+    \item Memory-hard: Resistant to GPU/ASIC attacks
+    \item Hybrid mode: Combines Argon2i and Argon2d protections
+    \item Recommended by OWASP for password storage
+\end{itemize}
+
+\subsection{Encryption Process}
+
+\begin{lstlisting}
+1. Generate random 16-byte salt
+2. Derive 256-bit key: Argon2id(password, salt)
+3. Generate random 12-byte IV
+4. Encrypt data: AES-256-GCM(key, IV, plaintext)
+5. Store: [salt][IV][ciphertext + auth tag]
+\end{lstlisting}
+
+\subsection{Decryption Process}
+
+\begin{lstlisting}
+1. Extract salt from bytes 0-16
+2. Derive key: Argon2id(password, salt)
+3. Extract IV from bytes 16-28
+4. Decrypt: AES-256-GCM(key, IV, ciphertext)
+5. Verify authentication tag (automatic)
+\end{lstlisting}
+
+\section{TOTP Implementation}
+
+S.A.M.S. implements RFC 6238 (TOTP) and RFC 4226 (HOTP):
+
+\begin{center}
+\begin{tabular}{ll}
+\toprule
+\textbf{Parameter} & \textbf{Value} \\
+\midrule
+Algorithm & HMAC-SHA1 \\
+Code Length & 6 digits \\
+Time Step & 30 seconds \\
+Secret Encoding & Base32 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{Code Generation Algorithm}
+
+\begin{lstlisting}
+1. counter = floor(unix_timestamp / 30)
+2. hmac = HMAC-SHA1(secret, counter_bytes)
+3. offset = hmac[19] & 0x0F
+4. binary = (hmac[offset] & 0x7F) << 24
+         | hmac[offset+1] << 16
+         | hmac[offset+2] << 8
+         | hmac[offset+3]
+5. code = binary mod 10^6
+6. return zero_pad(code, 6)
+\end{lstlisting}
+
+\section{Password Generation}
+
+S.A.M.S. generates passwords using the Web Crypto API:
+
+\begin{lstlisting}
+crypto.getRandomValues(Uint32Array)
+\end{lstlisting}
+
+This provides \textbf{cryptographically secure pseudo-random numbers} suitable for security-sensitive applications.
+
+\subsection{Password Strength Calculation}
+
+\begin{center}
+\begin{tabular}{lc}
+\toprule
+\textbf{Criterion} & \textbf{Points} \\
+\midrule
+Length $\geq$ 8 characters & +1 \\
+Length $\geq$ 12 characters & +1 \\
+Length $\geq$ 16 characters & +1 \\
+Contains uppercase \& lowercase & +1 \\
+Contains numbers & +1 \\
+Contains symbols & +1 \\
+\midrule
+\textbf{Maximum Score} & 5 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\section{Data Storage}
+
+\subsection{File Format}
+
+Encrypted databases use the \texttt{.sams} extension:
+
+\begin{lstlisting}
+Bytes 0-15:   Salt (16 bytes)
+Bytes 16-27:  IV (12 bytes)
+Bytes 28+:    Ciphertext + GCM Auth Tag
+\end{lstlisting}
+
+\subsection{Entry Structure}
+
+Each entry contains:
+
+\begin{lstlisting}
+{
+  id: number,
+  title: string,
+  url: string,
+  username: string,
+  password: string,
+  totpSecret: string | null,
+  tags: string[],
+  notes: string,
+  docsUrl: string,
+  createdAt: ISO date string,
+  passwordSetDate: ISO date string,
+  expiryDays: number,
+  hasPassword: boolean
+}
+\end{lstlisting}
+
+\section{Security Considerations}
+
+\subsection{Strengths}
+
+\begin{itemize}
+    \item \textbf{No network exposure}: Data never leaves your device
+    \item \textbf{Strong encryption}: AES-256-GCM with authenticated encryption
+    \item \textbf{Brute-force resistant}: Argon2id with 128MB memory cost
+    \item \textbf{Unique cryptographic material}: Random salt and IV per save
+    \item \textbf{No backdoors}: Open architecture with standard algorithms
+    \item \textbf{Browser-native crypto}: Uses Web Crypto API, not custom implementations
+\end{itemize}
+
+\subsection{User Responsibilities}
+
+\begin{itemize}
+    \item Choose a strong master password (12+ characters recommended)
+    \item Keep your \texttt{.sams} file secure
+    \item Maintain regular backups of your database
+    \item Use HTTPS when deploying (required for Web Crypto API)
+    \item Keep your browser updated
+\end{itemize}
+
+\subsection{Threat Model}
+
+\textbf{Protected against}:
+\begin{itemize}
+    \item Remote attacks (no network component)
+    \item Database theft (encrypted at rest)
+    \item Brute-force attacks (Argon2id memory-hardness)
+    \item Data tampering (GCM authentication)
+\end{itemize}
+
+\textbf{Not protected against}:
+\begin{itemize}
+    \item Keyloggers or malware on your device
+    \item Weak master passwords
+    \item Physical access to unlocked session
+    \item Browser vulnerabilities
+\end{itemize}
+
+\section{Browser Compatibility}
+
+S.A.M.S. requires Web Crypto API support:
+
+\begin{center}
+\begin{tabular}{lc}
+\toprule
+\textbf{Browser} & \textbf{Minimum Version} \\
+\midrule
+Google Chrome & 37+ \\
+Mozilla Firefox & 34+ \\
+Safari & 10.1+ \\
+Microsoft Edge & 12+ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\section{Technical References}
+
+\begin{itemize}
+    \item NIST SP 800-38D: AES-GCM Specification
+    \item RFC 6238: TOTP Algorithm
+    \item RFC 4226: HOTP Algorithm
+    \item Argon2 Reference: \url{https://github.com/P-H-C/phc-winner-argon2}
+    \item Web Crypto API: \url{https://www.w3.org/TR/WebCryptoAPI/}
+\end{itemize}
+
+\vfill
+
+\begin{center}
+\rule{0.5\textwidth}{0.4pt}\\[0.5cm]
+{\small S.A.M.S. --- Secure Access Management System}\\
+{\small Your credentials, your control.}
+\end{center}
+
+\end{document}
