@@ -2,7 +2,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{lmodern}
-\usepackage[margin=1in]{geometry}
+\usepackage[margin=0.8in]{geometry}
 \usepackage{graphicx}
 \usepackage{hyperref}
 \usepackage{xcolor}
@@ -11,17 +11,34 @@
 \usepackage{enumitem}
 \usepackage{fancyhdr}
 \usepackage{titlesec}
+\usepackage{pagecolor}
+\usepackage{afterpage}
+\usepackage{tikz}
+\usepackage{tcolorbox}
+\usepackage{fontspec}
 
-% Colors
-\definecolor{darkgray}{RGB}{30,30,30}
-\definecolor{lightgray}{RGB}{240,240,240}
-\definecolor{accentgray}{RGB}{100,100,100}
+% Set main font to a clean sans-serif
+\setmainfont{Latin Modern Sans}
+\setmonofont{Latin Modern Mono}
+
+% Dark theme colors
+\definecolor{bg}{RGB}{9,9,11}
+\definecolor{cardbg}{RGB}{24,24,27}
+\definecolor{textprimary}{RGB}{255,255,255}
+\definecolor{textsecondary}{RGB}{160,160,160}
+\definecolor{textmuted}{RGB}{100,100,100}
+\definecolor{border}{RGB}{40,40,45}
+\definecolor{accent}{RGB}{200,200,200}
+
+% Page colors
+\pagecolor{bg}
+\color{textprimary}
 
 % Hyperref setup
 \hypersetup{
     colorlinks=true,
-    linkcolor=darkgray,
-    urlcolor=accentgray,
+    linkcolor=accent,
+    urlcolor=accent,
     pdftitle={S.A.M.S. Documentation},
     pdfauthor={S.A.M.S.}
 }
@@ -29,23 +46,83 @@
 % Header/Footer
 \pagestyle{fancy}
 \fancyhf{}
-\fancyhead[L]{\textsc{S.A.M.S.}}
-\fancyhead[R]{\textsc{Documentation}}
-\fancyfoot[C]{\thepage}
-\renewcommand{\headrulewidth}{0.4pt}
+\fancyhead[L]{\color{textsecondary}\footnotesize\textsc{S.A.M.S.}}
+\fancyhead[R]{\color{textsecondary}\footnotesize\textsc{Documentation}}
+\fancyfoot[C]{\color{textmuted}\thepage}
+\renewcommand{\headrulewidth}{0pt}
 
 % Section styling
-\titleformat{\section}{\Large\bfseries\scshape}{}{0em}{}[\titlerule]
-\titleformat{\subsection}{\large\bfseries}{}{0em}{}
+\titleformat{\part}[display]
+    {\color{textprimary}\Huge\bfseries\scshape\centering}
+    {}
+    {0pt}
+    {}
+    [\vspace{-0.5em}\color{border}\rule{\textwidth}{0.5pt}]
+
+\titleformat{\section}
+    {\color{textprimary}\Large\bfseries\scshape}
+    {}
+    {0em}
+    {}
+    [\vspace{-0.8em}\color{border}\rule{\textwidth}{0.3pt}]
+
+\titleformat{\subsection}
+    {\color{textprimary}\large\bfseries}
+    {}
+    {0em}
+    {}
+
+\titleformat{\subsubsection}
+    {\color{textsecondary}\normalsize\bfseries}
+    {}
+    {0em}
+    {}
 
 % Code listing style
 \lstset{
-    basicstyle=\ttfamily\small,
-    backgroundcolor=\color{lightgray},
+    basicstyle=\ttfamily\small\color{textprimary},
+    backgroundcolor=\color{cardbg},
     frame=single,
-    framerule=0pt,
+    framerule=0.5pt,
+    rulecolor=\color{border},
     breaklines=true,
-    columns=fullflexible
+    columns=fullflexible,
+    xleftmargin=1em,
+    framexleftmargin=1em,
+    aboveskip=1em,
+    belowskip=1em
+}
+
+% Custom tcolorbox for cards
+\tcbset{
+    card/.style={
+        colback=cardbg,
+        colframe=border,
+        arc=3pt,
+        boxrule=0.5pt,
+        left=10pt,
+        right=10pt,
+        top=8pt,
+        bottom=8pt
+    }
+}
+
+% Custom description list styling
+\setlist[description]{
+    font=\color{accent}\bfseries\ttfamily,
+    leftmargin=3cm,
+    labelwidth=2.5cm,
+    labelsep=0.5cm
+}
+
+\setlist[itemize]{
+    label=\color{textmuted}$\bullet$,
+    leftmargin=1.5em
+}
+
+\setlist[enumerate]{
+    label=\color{textsecondary}\arabic*.,
+    leftmargin=1.5em
 }
 
 \begin{document}
@@ -53,27 +130,30 @@
 % Title Page
 \begin{titlepage}
     \centering
-    \vspace*{1cm}
+    \vspace*{2cm}
 
-    \includegraphics[width=0.3\textwidth]{logo.png}\\[1cm]
+    \includegraphics[width=0.25\textwidth]{logo.png}\\[1.5cm]
 
-    {\Huge\bfseries\scshape S.A.M.S.}\\[0.5cm]
-    {\Large Secure Access Management System}\\[2cm]
+    {\color{textprimary}\fontsize{42}{50}\selectfont\bfseries\scshape S.A.M.S.}\\[0.3cm]
+    {\color{textsecondary}\Large Secure Access Management System}\\[3cm]
 
-    {\large\textsc{User Guide \& Security Overview}}\\[1cm]
+    \begin{tcolorbox}[card, width=0.7\textwidth, halign=center]
+        {\color{textprimary}\large\scshape User Guide \& Security Overview}
+    \end{tcolorbox}
 
     \vfill
 
-    {\normalsize Version 1.0}\\[0.5cm]
-    {\normalsize\today}
+    {\color{textmuted}\small Version 1.0}\\[0.3cm]
+    {\color{textmuted}\small\today}
 
-    \vspace{1cm}
+    \vspace{1.5cm}
 
-    \rule{\textwidth}{0.4pt}\\[0.5cm]
-    {\small AES-256-GCM \textbullet{} Argon2id \textbullet{} Local-Only Storage}
+    {\color{border}\rule{0.6\textwidth}{0.3pt}}\\[0.8cm]
+    {\color{textsecondary}\footnotesize\ttfamily AES-256-GCM\quad//\quad ARGON2ID\quad//\quad LOCAL ONLY}
 
 \end{titlepage}
 
+% Table of Contents
 \tableofcontents
 \newpage
 
@@ -83,18 +163,20 @@
 
 \section{Introduction}
 
-S.A.M.S. (Secure Access Management System) is a local-first password manager designed for security-conscious users. All data is encrypted and stored entirely on your device---no cloud, no servers, no third parties.
+S.A.M.S. (Secure Access Management System) is a \textbf{local-first password manager} designed for security-conscious users. All data is encrypted and stored entirely on your device---no cloud, no servers, no third parties.
 
 \subsection{Key Features}
 
-\begin{itemize}[leftmargin=*]
-    \item \textbf{Military-Grade Encryption}: AES-256-GCM with Argon2id key derivation
-    \item \textbf{TOTP Support}: Built-in two-factor authentication code generation
-    \item \textbf{Password Generator}: Cryptographically secure password creation
-    \item \textbf{Password Expiry Tracking}: Automatic reminders for credential rotation
-    \item \textbf{Offline Operation}: Works without internet connection
-    \item \textbf{Zero Knowledge}: Your master password never leaves your device
+\begin{tcolorbox}[card]
+\begin{itemize}
+    \item \textbf{Military-Grade Encryption} --- AES-256-GCM with Argon2id key derivation
+    \item \textbf{TOTP Support} --- Built-in two-factor authentication code generation
+    \item \textbf{Password Generator} --- Cryptographically secure password creation
+    \item \textbf{Expiry Tracking} --- Automatic reminders for credential rotation
+    \item \textbf{Offline Operation} --- Works without internet connection
+    \item \textbf{Zero Knowledge} --- Your master password never leaves your device
 \end{itemize}
+\end{tcolorbox}
 
 \section{Getting Started}
 
@@ -102,20 +184,22 @@ S.A.M.S. (Secure Access Management System) is a local-first password manager des
 
 \begin{enumerate}
     \item Launch S.A.M.S. in your web browser
-    \item Click \textbf{``Initialize New Database''}
+    \item Click \texttt{Initialize New Database}
     \item Enter a strong master password (minimum 8 characters)
     \item Confirm your master password
-    \item Click \textbf{``Create Database''}
+    \item Click \texttt{Create Database}
 \end{enumerate}
 
-\textbf{Important}: Your master password is the only way to access your data. There is no recovery mechanism---if you forget it, your data is permanently inaccessible.
+\begin{tcolorbox}[card, colframe=accent]
+\textbf{Important:} Your master password is the \textit{only} way to access your data. There is no recovery mechanism---if you forget it, your data is permanently inaccessible.
+\end{tcolorbox}
 
 \subsection{Opening an Existing Database}
 
 \begin{enumerate}
-    \item Click \textbf{``Browse''} to select your \texttt{.sams} file
+    \item Click \texttt{Browse} to select your \texttt{.sams} file
     \item Enter your master password
-    \item Click \textbf{``Unlock''}
+    \item Click \texttt{Unlock}
 \end{enumerate}
 
 \section{Managing Entries}
@@ -124,7 +208,8 @@ S.A.M.S. (Secure Access Management System) is a local-first password manager des
 
 The entry form (left sidebar) allows you to store credentials:
 
-\begin{description}[leftmargin=!,labelwidth=2.5cm]
+\begin{tcolorbox}[card]
+\begin{description}
     \item[Title] Required. A name for the entry (e.g., ``GitHub'')
     \item[URL] The website address
     \item[Username] Your login username or email
@@ -135,6 +220,7 @@ The entry form (left sidebar) allows you to store credentials:
     \item[Notes] Additional information
     \item[Expiry] Password expiration period (or ``Never expire'')
 \end{description}
+\end{tcolorbox}
 
 \subsection{Using the Password Generator}
 
@@ -142,16 +228,16 @@ The entry form (left sidebar) allows you to store credentials:
     \item Set desired password length (default: 16 characters)
     \item Select character types:
     \begin{itemize}
-        \item A-Z (uppercase letters)
-        \item a-z (lowercase letters)
-        \item 0-9 (numbers)
-        \item !@\# (symbols)
+        \item \texttt{A-Z} (uppercase letters)
+        \item \texttt{a-z} (lowercase letters)
+        \item \texttt{0-9} (numbers)
+        \item \texttt{!@\#} (symbols)
     \end{itemize}
-    \item Click \textbf{``Generate''}
-    \item Preview the password and click \textbf{``Use''} to apply it
+    \item Click \texttt{Generate}
+    \item Preview the password and click \texttt{Use} to apply
 \end{enumerate}
 
-\subsection{Setting Up TOTP (Two-Factor Authentication)}
+\subsection{Setting Up TOTP}
 
 S.A.M.S. can generate 6-digit TOTP codes for your accounts:
 
@@ -162,7 +248,9 @@ S.A.M.S. can generate 6-digit TOTP codes for your accounts:
     \item TOTP codes appear on entry cards with a countdown timer
 \end{enumerate}
 
-\textbf{Tip}: Click on the TOTP code to copy it to your clipboard.
+\begin{tcolorbox}[card]
+\textbf{Tip:} Click on the TOTP code to copy it to your clipboard.
+\end{tcolorbox}
 
 \subsection{Editing and Deleting Entries}
 
@@ -176,23 +264,18 @@ S.A.M.S. can generate 6-digit TOTP codes for your accounts:
 
 \subsection{Tabs}
 
-\begin{description}[leftmargin=!,labelwidth=2cm]
+\begin{tcolorbox}[card]
+\begin{description}
     \item[All] Shows all entries
     \item[Logins] Entries with passwords
     \item[Bookmarks] Entries without passwords (URL-only)
     \item[Expiring] Entries with passwords expiring within 14 days
 \end{description}
+\end{tcolorbox}
 
 \subsection{Search}
 
-Type in the search box to filter entries by:
-\begin{itemize}
-    \item Title
-    \item URL
-    \item Username
-    \item Notes
-    \item Tags
-\end{itemize}
+Type in the search box to filter entries by title, URL, username, notes, or tags.
 
 \subsection{Sorting}
 
@@ -209,8 +292,8 @@ Use the sort dropdown to order entries by:
 \subsection{Manual Save}
 
 \begin{itemize}
-    \item Click \textbf{``Save''} in the navigation bar, or
-    \item Press \textbf{Ctrl+S} (Windows/Linux) or \textbf{Cmd+S} (Mac)
+    \item Click \texttt{Save} in the navigation bar, or
+    \item Press \texttt{Ctrl+S} (Windows/Linux) or \texttt{Cmd+S} (Mac)
 \end{itemize}
 
 An asterisk (*) in the page title indicates unsaved changes.
@@ -218,25 +301,25 @@ An asterisk (*) in the page title indicates unsaved changes.
 \subsection{Exporting Data}
 
 \begin{enumerate}
-    \item Click \textbf{``Export''} in the navigation bar
+    \item Click \texttt{Export} in the navigation bar
     \item Choose whether to include passwords
-    \item Click \textbf{``Export CSV''} to download
+    \item Click \texttt{Export CSV} to download
 \end{enumerate}
 
-\textbf{Warning}: CSV exports are unencrypted plain text. Handle with care.
+\begin{tcolorbox}[card, colframe=accent]
+\textbf{Warning:} CSV exports are unencrypted plain text. Handle with care.
+\end{tcolorbox}
 
 \section{Keyboard Shortcuts}
 
+\begin{tcolorbox}[card]
 \begin{center}
 \begin{tabular}{ll}
-\toprule
-\textbf{Shortcut} & \textbf{Action} \\
-\midrule
-Ctrl/Cmd + S & Save database \\
-Esc & Close modal dialogs \\
-\bottomrule
+\color{accent}\texttt{Ctrl/Cmd + S} & Save database \\
+\color{accent}\texttt{Esc} & Close modal dialogs \\
 \end{tabular}
 \end{center}
+\end{tcolorbox}
 
 \newpage
 
@@ -248,12 +331,14 @@ Esc & Close modal dialogs \\
 
 S.A.M.S. follows a \textbf{zero-knowledge, local-first} architecture:
 
+\begin{tcolorbox}[card]
 \begin{itemize}
     \item All encryption/decryption happens in your browser
     \item No data is transmitted to any server
     \item Your master password never leaves your device
     \item Database files are fully encrypted at rest
 \end{itemize}
+\end{tcolorbox}
 
 \section{Encryption}
 
@@ -262,32 +347,31 @@ S.A.M.S. follows a \textbf{zero-knowledge, local-first} architecture:
 S.A.M.S. uses \textbf{AES-256-GCM} (Advanced Encryption Standard with Galois/Counter Mode):
 
 \begin{itemize}
-    \item \textbf{256-bit key}: Provides $2^{256}$ possible keys
-    \item \textbf{Authenticated encryption}: Detects tampering
-    \item \textbf{12-byte IV}: Unique per encryption operation
-    \item \textbf{NIST-approved}: Standard for classified government data
+    \item \textbf{256-bit key} --- Provides $2^{256}$ possible keys
+    \item \textbf{Authenticated encryption} --- Detects tampering
+    \item \textbf{12-byte IV} --- Unique per encryption operation
+    \item \textbf{NIST-approved} --- Standard for classified government data
 \end{itemize}
 
 \subsection{Key Derivation: Argon2id}
 
 The master password is transformed into an encryption key using \textbf{Argon2id}:
 
+\begin{tcolorbox}[card]
 \begin{center}
 \begin{tabular}{ll}
-\toprule
-\textbf{Parameter} & \textbf{Value} \\
-\midrule
-Algorithm & Argon2id (hybrid) \\
-Time Cost & 3 iterations \\
-Memory Cost & 128 MB \\
-Parallelism & 1 \\
-Output Length & 256 bits (32 bytes) \\
-Salt Length & 128 bits (16 bytes) \\
-\bottomrule
+\color{textsecondary}Algorithm & \color{textprimary}Argon2id (hybrid) \\
+\color{textsecondary}Time Cost & \color{textprimary}3 iterations \\
+\color{textsecondary}Memory Cost & \color{textprimary}128 MB \\
+\color{textsecondary}Parallelism & \color{textprimary}1 \\
+\color{textsecondary}Output Length & \color{textprimary}256 bits (32 bytes) \\
+\color{textsecondary}Salt Length & \color{textprimary}128 bits (16 bytes) \\
 \end{tabular}
 \end{center}
+\end{tcolorbox}
 
-\textbf{Why Argon2id?}
+\subsubsection{Why Argon2id?}
+
 \begin{itemize}
     \item Winner of the Password Hashing Competition (2015)
     \item Memory-hard: Resistant to GPU/ASIC attacks
@@ -319,18 +403,16 @@ Salt Length & 128 bits (16 bytes) \\
 
 S.A.M.S. implements RFC 6238 (TOTP) and RFC 4226 (HOTP):
 
+\begin{tcolorbox}[card]
 \begin{center}
 \begin{tabular}{ll}
-\toprule
-\textbf{Parameter} & \textbf{Value} \\
-\midrule
-Algorithm & HMAC-SHA1 \\
-Code Length & 6 digits \\
-Time Step & 30 seconds \\
-Secret Encoding & Base32 \\
-\bottomrule
+\color{textsecondary}Algorithm & \color{textprimary}HMAC-SHA1 \\
+\color{textsecondary}Code Length & \color{textprimary}6 digits \\
+\color{textsecondary}Time Step & \color{textprimary}30 seconds \\
+\color{textsecondary}Secret Encoding & \color{textprimary}Base32 \\
 \end{tabular}
 \end{center}
+\end{tcolorbox}
 
 \subsection{Code Generation Algorithm}
 
@@ -358,10 +440,10 @@ This provides \textbf{cryptographically secure pseudo-random numbers} suitable f
 
 \subsection{Password Strength Calculation}
 
+\begin{tcolorbox}[card]
 \begin{center}
 \begin{tabular}{lc}
-\toprule
-\textbf{Criterion} & \textbf{Points} \\
+\color{textsecondary}Criterion & \color{textprimary}Points \\
 \midrule
 Length $\geq$ 8 characters & +1 \\
 Length $\geq$ 12 characters & +1 \\
@@ -370,10 +452,10 @@ Contains uppercase \& lowercase & +1 \\
 Contains numbers & +1 \\
 Contains symbols & +1 \\
 \midrule
-\textbf{Maximum Score} & 5 \\
-\bottomrule
+\textbf{Maximum Score} & \textbf{5} \\
 \end{tabular}
 \end{center}
+\end{tcolorbox}
 
 \section{Data Storage}
 
@@ -388,8 +470,6 @@ Bytes 28+:    Ciphertext + GCM Auth Tag
 \end{lstlisting}
 
 \subsection{Entry Structure}
-
-Each entry contains:
 
 \begin{lstlisting}
 {
@@ -413,14 +493,16 @@ Each entry contains:
 
 \subsection{Strengths}
 
+\begin{tcolorbox}[card]
 \begin{itemize}
-    \item \textbf{No network exposure}: Data never leaves your device
-    \item \textbf{Strong encryption}: AES-256-GCM with authenticated encryption
-    \item \textbf{Brute-force resistant}: Argon2id with 128MB memory cost
-    \item \textbf{Unique cryptographic material}: Random salt and IV per save
-    \item \textbf{No backdoors}: Open architecture with standard algorithms
-    \item \textbf{Browser-native crypto}: Uses Web Crypto API, not custom implementations
+    \item \textbf{No network exposure} --- Data never leaves your device
+    \item \textbf{Strong encryption} --- AES-256-GCM with authenticated encryption
+    \item \textbf{Brute-force resistant} --- Argon2id with 128MB memory cost
+    \item \textbf{Unique cryptographic material} --- Random salt and IV per save
+    \item \textbf{No backdoors} --- Open architecture with standard algorithms
+    \item \textbf{Browser-native crypto} --- Uses Web Crypto API
 \end{itemize}
+\end{tcolorbox}
 
 \subsection{User Responsibilities}
 
@@ -434,7 +516,8 @@ Each entry contains:
 
 \subsection{Threat Model}
 
-\textbf{Protected against}:
+\subsubsection{Protected Against}
+
 \begin{itemize}
     \item Remote attacks (no network component)
     \item Database theft (encrypted at rest)
@@ -442,7 +525,8 @@ Each entry contains:
     \item Data tampering (GCM authentication)
 \end{itemize}
 
-\textbf{Not protected against}:
+\subsubsection{Not Protected Against}
+
 \begin{itemize}
     \item Keyloggers or malware on your device
     \item Weak master passwords
@@ -454,18 +538,18 @@ Each entry contains:
 
 S.A.M.S. requires Web Crypto API support:
 
+\begin{tcolorbox}[card]
 \begin{center}
 \begin{tabular}{lc}
-\toprule
-\textbf{Browser} & \textbf{Minimum Version} \\
+\color{textsecondary}Browser & \color{textprimary}Minimum Version \\
 \midrule
 Google Chrome & 37+ \\
 Mozilla Firefox & 34+ \\
 Safari & 10.1+ \\
 Microsoft Edge & 12+ \\
-\bottomrule
 \end{tabular}
 \end{center}
+\end{tcolorbox}
 
 \section{Technical References}
 
@@ -480,9 +564,9 @@ Microsoft Edge & 12+ \\
 \vfill
 
 \begin{center}
-\rule{0.5\textwidth}{0.4pt}\\[0.5cm]
-{\small S.A.M.S. --- Secure Access Management System}\\
-{\small Your credentials, your control.}
+{\color{border}\rule{0.4\textwidth}{0.3pt}}\\[0.8cm]
+{\color{textsecondary}\scshape S.A.M.S.}\\[0.2cm]
+{\color{textmuted}\small Your credentials, your control.}
 \end{center}
 
 \end{document}
