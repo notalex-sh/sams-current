@@ -400,7 +400,9 @@
     background: rgba(24, 24, 27, 0.9);
     border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 20px;
-    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    max-height: 100%;
   }
 
   .form-header {
@@ -409,6 +411,7 @@
     justify-content: space-between;
     padding: 20px 24px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    flex-shrink: 0;
   }
 
   .form-title {
@@ -436,6 +439,22 @@
     display: flex;
     flex-direction: column;
     gap: 20px;
+    overflow-y: auto;
+    flex: 1;
+    min-height: 0;
+  }
+
+  .form-body::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .form-body::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .form-body::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
   }
 
   .form-section {
