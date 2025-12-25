@@ -397,9 +397,9 @@
 
 <style>
   .form-card {
-    background: rgba(24, 24, 27, 0.9);
+    background: rgba(24, 24, 27, 0.8);
     border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 20px;
+    border-radius: 16px;
     display: flex;
     flex-direction: column;
     max-height: 100%;
@@ -409,7 +409,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 20px 24px;
+    padding: 16px 20px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.06);
     flex-shrink: 0;
   }
@@ -435,10 +435,10 @@
   }
 
   .form-body {
-    padding: 20px 24px;
+    padding: 16px 20px;
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 16px;
     overflow-y: auto;
     flex: 1;
     min-height: 0;
@@ -476,11 +476,11 @@
 
   .form-input {
     width: 100%;
-    background: rgba(255, 255, 255, 0.04);
+    background: rgba(0, 0, 0, 0.3);
     border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 10px;
-    padding: 12px 16px;
-    font-size: 14px;
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 13px;
     color: white;
     transition: all 0.2s ease;
   }
@@ -538,12 +538,12 @@
   }
 
   .toggle-btn {
-    padding: 12px 16px;
-    background: rgba(255, 255, 255, 0.04);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 10px;
-    font-size: 12px;
-    color: rgba(255, 255, 255, 0.5);
+    padding: 10px 14px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.6);
     cursor: pointer;
     transition: all 0.2s ease;
     white-space: nowrap;
@@ -556,10 +556,10 @@
 
   /* Generator */
   .generator-section {
-    background: rgba(255, 255, 255, 0.02);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    border-radius: 12px;
-    padding: 14px;
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 8px;
+    padding: 12px;
   }
 
   .generator-header {
@@ -828,13 +828,13 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 10px;
+    gap: 8px;
     width: 100%;
-    padding: 14px 20px;
+    padding: 12px 16px;
     background: white;
     border: none;
-    border-radius: 12px;
-    font-size: 14px;
+    border-radius: 8px;
+    font-size: 13px;
     font-weight: 600;
     color: black;
     cursor: pointer;
