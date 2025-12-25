@@ -13,6 +13,15 @@
 \usepackage{titlesec}
 \usepackage{pagecolor}
 \usepackage[most]{tcolorbox}
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, arrows.meta, positioning, calc}
+
+% TikZ styles for flow diagrams
+\tikzset{
+    process/.style={rectangle, rounded corners, minimum width=2.5cm, minimum height=0.8cm, text centered, draw=border, fill=cardbg, font=\small},
+    arrow/.style={thick, ->, >=Stealth, color=textsecondary},
+    data/.style={rectangle, minimum width=1.5cm, minimum height=0.6cm, text centered, draw=border, fill=white, font=\small\ttfamily}
+}
 
 % Use Helvetica-like font
 \usepackage{helvet}
@@ -385,23 +394,79 @@ The master password is transformed into an encryption key using \textbf{Argon2id
 
 \subsection{Encryption Process}
 
-\begin{lstlisting}
-1. Generate random 16-byte salt
-2. Derive 256-bit key: Argon2id(password, salt)
-3. Generate random 12-byte IV
-4. Encrypt data: AES-256-GCM(key, IV, plaintext)
-5. Store: [salt][IV][ciphertext + auth tag]
-\end{lstlisting}
+\begin{center}
+\begin{tikzpicture}[node distance=0.5cm]
+    % Nodes
+    \node (salt) [process] {Generate Salt};
+    \node (derive) [process, right=of salt] {Argon2id};
+    \node (iv) [process, right=of derive] {Generate IV};
+    \node (encrypt) [process, right=of iv] {AES-256-GCM};
+    \node (store) [process, right=of encrypt] {Store File};
+
+    % Input labels
+    \node (pwd) [above=0.3cm of derive, font=\small\ttfamily] {password};
+    \node (plain) [above=0.3cm of encrypt, font=\small\ttfamily] {plaintext};
+
+    % Output label
+    \node (output) [below=0.3cm of store, font=\small\ttfamily] {.sams file};
+
+    % Arrows
+    \draw [arrow] (salt) -- (derive);
+    \draw [arrow] (derive) -- node[above, font=\scriptsize] {key} (iv);
+    \draw [arrow] (iv) -- (encrypt);
+    \draw [arrow] (encrypt) -- (store);
+    \draw [arrow] (pwd) -- (derive);
+    \draw [arrow] (plain) -- (encrypt);
+    \draw [arrow] (store) -- (output);
+\end{tikzpicture}
+\end{center}
+
+\begin{tcolorbox}[card]
+\begin{tabular}{ll}
+\color{textsecondary}Salt & \color{textprimary}16 random bytes \\
+\color{textsecondary}Key & \color{textprimary}256 bits from Argon2id(password, salt) \\
+\color{textsecondary}IV & \color{textprimary}12 random bytes \\
+\color{textsecondary}Output & \color{textprimary}[salt][IV][ciphertext + auth tag] \\
+\end{tabular}
+\end{tcolorbox}
 
 \subsection{Decryption Process}
 
-\begin{lstlisting}
-1. Extract salt from bytes 0-16
-2. Derive key: Argon2id(password, salt)
-3. Extract IV from bytes 16-28
-4. Decrypt: AES-256-GCM(key, IV, ciphertext)
-5. Verify authentication tag (automatic)
-\end{lstlisting}
+\begin{center}
+\begin{tikzpicture}[node distance=0.5cm]
+    % Nodes
+    \node (load) [process] {Load File};
+    \node (extract) [process, right=of load] {Extract Salt/IV};
+    \node (derive) [process, right=of extract] {Argon2id};
+    \node (decrypt) [process, right=of derive] {AES-256-GCM};
+    \node (verify) [process, right=of decrypt] {Verify Tag};
+
+    % Input labels
+    \node (file) [above=0.3cm of load, font=\small\ttfamily] {.sams file};
+    \node (pwd) [above=0.3cm of derive, font=\small\ttfamily] {password};
+
+    % Output label
+    \node (output) [below=0.3cm of verify, font=\small\ttfamily] {plaintext};
+
+    % Arrows
+    \draw [arrow] (file) -- (load);
+    \draw [arrow] (load) -- (extract);
+    \draw [arrow] (extract) -- node[above, font=\scriptsize] {salt} (derive);
+    \draw [arrow] (derive) -- node[above, font=\scriptsize] {key} (decrypt);
+    \draw [arrow] (decrypt) -- (verify);
+    \draw [arrow] (pwd) -- (derive);
+    \draw [arrow] (verify) -- (output);
+\end{tikzpicture}
+\end{center}
+
+\begin{tcolorbox}[card]
+\begin{tabular}{ll}
+\color{textsecondary}Bytes 0--15 & \color{textprimary}Salt \\
+\color{textsecondary}Bytes 16--27 & \color{textprimary}IV \\
+\color{textsecondary}Bytes 28+ & \color{textprimary}Ciphertext + GCM auth tag \\
+\color{textsecondary}Verification & \color{textprimary}Automatic (tampering detected if failed) \\
+\end{tabular}
+\end{tcolorbox}
 
 \section{TOTP Implementation}
 
@@ -420,17 +485,41 @@ S.A.M.S. implements RFC 6238 (TOTP) and RFC 4226 (HOTP):
 
 \subsection{Code Generation Algorithm}
 
-\begin{lstlisting}
-1. counter = floor(unix_timestamp / 30)
-2. hmac = HMAC-SHA1(secret, counter_bytes)
-3. offset = hmac[19] & 0x0F
-4. binary = (hmac[offset] & 0x7F) << 24
-         | hmac[offset+1] << 16
-         | hmac[offset+2] << 8
-         | hmac[offset+3]
-5. code = binary mod 10^6
-6. return zero_pad(code, 6)
-\end{lstlisting}
+\begin{center}
+\begin{tikzpicture}[node distance=0.4cm]
+    % Nodes - vertical layout for TOTP
+    \node (time) [process, minimum width=3.5cm] {Get Unix Time};
+    \node (counter) [process, minimum width=3.5cm, below=of time] {counter = time / 30};
+    \node (hmac) [process, minimum width=3.5cm, below=of counter] {HMAC-SHA1};
+    \node (truncate) [process, minimum width=3.5cm, below=of hmac] {Dynamic Truncation};
+    \node (mod) [process, minimum width=3.5cm, below=of truncate] {mod $10^6$};
+    \node (pad) [process, minimum width=3.5cm, below=of mod] {Zero-pad to 6 digits};
+
+    % Input
+    \node (secret) [left=0.8cm of hmac, font=\small\ttfamily] {secret};
+
+    % Output
+    \node (output) [below=0.3cm of pad, font=\small\ttfamily] {TOTP code};
+
+    % Arrows
+    \draw [arrow] (time) -- (counter);
+    \draw [arrow] (counter) -- (hmac);
+    \draw [arrow] (hmac) -- (truncate);
+    \draw [arrow] (truncate) -- (mod);
+    \draw [arrow] (mod) -- (pad);
+    \draw [arrow] (secret) -- (hmac);
+    \draw [arrow] (pad) -- (output);
+\end{tikzpicture}
+\end{center}
+
+\begin{tcolorbox}[card]
+\begin{tabular}{ll}
+\color{textsecondary}Time Step & \color{textprimary}30 seconds \\
+\color{textsecondary}Hash & \color{textprimary}HMAC-SHA1(secret, counter) \\
+\color{textsecondary}Truncation & \color{textprimary}Extract 4 bytes at dynamic offset \\
+\color{textsecondary}Output & \color{textprimary}6-digit code (000000--999999) \\
+\end{tabular}
+\end{tcolorbox}
 
 \section{Password Generation}
 
