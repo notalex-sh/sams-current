@@ -168,7 +168,12 @@ S.A.M.S. (Secure Access Management System) is a \textbf{local-first password man
     \item \textbf{Expiry Tracking} --- Automatic reminders for credential rotation
     \item \textbf{Offline Operation} --- Works without internet connection
     \item \textbf{Zero Knowledge} --- Your master password never leaves your device
+    \item \textbf{File-Based Storage} --- Your data lives in a \texttt{.sams} file you control
 \end{itemize}
+\end{tcolorbox}
+
+\begin{tcolorbox}[card, colframe=accent]
+\textbf{Important:} S.A.M.S. does not auto-save. After making any changes, you must \textbf{save and download} your updated \texttt{.sams} file. Always replace your old file with the new one to avoid data loss.
 \end{tcolorbox}
 
 \section{Getting Started}
@@ -282,11 +287,17 @@ Use the sort dropdown to order entries by:
 
 \section{Saving Your Data}
 
+\begin{tcolorbox}[card, colframe=accent]
+\textbf{Critical:} S.A.M.S. stores your data in a local \texttt{.sams} file. \textbf{You must save and download the file after every change.} Changes are \textit{not} saved automatically---if you close your browser without saving, your changes will be lost.
+\end{tcolorbox}
+
 \subsection{Manual Save}
 
 \begin{itemize}
     \item Click \texttt{Save} in the navigation bar, or
     \item Press \texttt{Ctrl+S} (Windows/Linux) or \texttt{Cmd+S} (Mac)
+    \item \textbf{Download the new file} when prompted
+    \item Replace your old \texttt{.sams} file with the newly downloaded one
 \end{itemize}
 
 An asterisk (*) in the page title indicates unsaved changes.
