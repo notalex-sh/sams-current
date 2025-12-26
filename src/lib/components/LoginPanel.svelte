@@ -335,18 +335,19 @@
   .app-title {
     font-size: 26px;
     font-weight: 700;
-    letter-spacing: 0.25em;
+    letter-spacing: 0.2em;
     color: white;
     margin: 0;
     text-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
   }
 
   .app-subtitle {
-    font-size: 10px;
-    letter-spacing: 0.12em;
-    color: rgba(255, 255, 255, 0.4);
-    margin: 8px 0 0 0;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    color: rgba(255, 255, 255, 0.45);
+    margin: 12px 0 0 0;
     text-transform: uppercase;
+    word-spacing: 0.15em;
   }
 
   .header-line {
@@ -375,11 +376,11 @@
     display: flex;
     align-items: center;
     gap: 8px;
-    font-size: 10px;
+    font-size: 11px;
     font-weight: 600;
-    letter-spacing: 0.1em;
-    color: rgba(255, 255, 255, 0.5);
-    margin-bottom: 10px;
+    letter-spacing: 0.06em;
+    color: rgba(255, 255, 255, 0.55);
+    margin-bottom: 12px;
     text-transform: uppercase;
   }
 
@@ -462,9 +463,10 @@
   }
 
   .divider-text {
-    font-size: 9px;
-    color: rgba(255, 255, 255, 0.25);
-    letter-spacing: 0.2em;
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.3);
+    letter-spacing: 0.15em;
+    font-weight: 500;
   }
 
   .create-btn {
@@ -542,20 +544,20 @@
   .requirements {
     display: flex;
     flex-direction: column;
-    gap: 8px;
-    padding: 12px;
+    gap: 10px;
+    padding: 14px 16px;
     background: rgba(255, 255, 255, 0.02);
     border: 1px solid rgba(255, 255, 255, 0.06);
     border-radius: 8px;
-    margin-bottom: 16px;
+    margin-bottom: 20px;
   }
 
   .req-item {
     display: flex;
     align-items: center;
-    gap: 10px;
-    font-size: 11px;
-    color: rgba(255, 255, 255, 0.3);
+    gap: 12px;
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.35);
     transition: color 0.2s ease;
   }
 
@@ -651,11 +653,11 @@
   .badge {
     display: flex;
     align-items: center;
-    gap: 6px;
-    font-size: 9px;
+    gap: 8px;
+    font-size: 10px;
     font-weight: 500;
-    letter-spacing: 0.1em;
-    color: rgba(255, 255, 255, 0.35);
+    letter-spacing: 0.08em;
+    color: rgba(255, 255, 255, 0.4);
   }
 
   .badge-dot {
