@@ -2,28 +2,71 @@
   export let strength = 0;
 
   const strengthLevels = [
-    { label: 'VERY WEAK', color: 'text-red-400', barColor: 'bg-red-400', width: '20%' },
-    { label: 'WEAK', color: 'text-orange-400', barColor: 'bg-orange-400', width: '40%' },
-    { label: 'FAIR', color: 'text-yellow-400', barColor: 'bg-yellow-400', width: '60%' },
-    { label: 'GOOD', color: 'text-blue-400', barColor: 'bg-blue-400', width: '80%' },
-    { label: 'STRONG', color: 'text-green-400', barColor: 'bg-green-400', width: '100%' },
-    { label: 'EXCELLENT', color: 'text-white', barColor: 'bg-white', width: '100%' }
+    { label: 'VERY WEAK', width: '20%', opacity: 0.2 },
+    { label: 'WEAK', width: '40%', opacity: 0.35 },
+    { label: 'FAIR', width: '60%', opacity: 0.5 },
+    { label: 'GOOD', width: '80%', opacity: 0.7 },
+    { label: 'STRONG', width: '100%', opacity: 0.85 },
+    { label: 'EXCELLENT', width: '100%', opacity: 1 }
   ];
 
   $: currentLevel = strengthLevels[Math.min(strength, strengthLevels.length - 1)];
 </script>
 
-<div class="mt-2">
-  <div class="flex items-center justify-between">
-    <span class="text-[10px] uppercase tracking-wider text-white/30">Strength</span>
-    <span class="text-[10px] uppercase tracking-wider {currentLevel.color}">
+<div class="strength-meter">
+  <div class="strength-header">
+    <span class="strength-label">Strength</span>
+    <span class="strength-value" style="opacity: {currentLevel.opacity}">
       {currentLevel.label}
     </span>
   </div>
-  <div class="mt-1 h-0.5 bg-white/10">
+  <div class="strength-track">
     <div
-      class="h-full transition-all duration-300 {currentLevel.barColor}"
-      style="width: {currentLevel.width}; box-shadow: 0 0 10px currentColor;"
+      class="strength-bar"
+      style="width: {currentLevel.width}; opacity: {currentLevel.opacity}"
     />
   </div>
 </div>
+
+<style>
+  .strength-meter {
+    margin-top: 8px;
+  }
+
+  .strength-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .strength-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: rgba(255, 255, 255, 0.3);
+  }
+
+  .strength-value {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: white;
+    transition: opacity 0.3s ease;
+  }
+
+  .strength-track {
+    margin-top: 6px;
+    height: 2px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 1px;
+    overflow: hidden;
+  }
+
+  .strength-bar {
+    height: 100%;
+    background: white;
+    border-radius: 1px;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+  }
+</style>
