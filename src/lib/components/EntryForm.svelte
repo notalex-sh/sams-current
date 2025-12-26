@@ -20,6 +20,10 @@
   let neverExpire = true;
   let showPasswordInput = false;
   let showTotpInput = false;
+  let isSSO = false;
+  let isApplication = false;
+
+  $: noPasswordRequired = isSSO || isApplication;
 
   $: expiryDays = neverExpire ? 0 : (expiryWeeks || 0) * 7 + (expiryDaysInput || 0);
 
@@ -96,12 +100,14 @@
       title,
       url,
       username,
-      password,
+      password: noPasswordRequired ? '' : password,
       totpSecret: totpSecret || null,
       docsUrl,
       tags: tags ? tags.split(',').map(t => t.trim()).filter(t => t) : [],
       notes,
-      expiryDays
+      expiryDays: noPasswordRequired ? 0 : expiryDays,
+      isSSO,
+      isApplication
     };
 
     addEntry(entry);
@@ -122,6 +128,8 @@
     showPasswordInput = false;
     showTotpInput = false;
     showDuplicateWarning = false;
+    isSSO = false;
+    isApplication = false;
 
     dispatch('notify', 'Entry created');
   }
@@ -191,7 +199,25 @@
       </div>
     {/if}
 
+    <!-- Entry Type -->
+    <div class="form-section">
+      <label class="section-label">Entry Type</label>
+      <div class="type-options">
+        <label class="type-option">
+          <input type="checkbox" bind:checked={isSSO} class="option-checkbox" />
+          <span>SSO</span>
+          <span class="type-hint">(no password)</span>
+        </label>
+        <label class="type-option">
+          <input type="checkbox" bind:checked={isApplication} class="option-checkbox" />
+          <span>Application</span>
+          <span class="type-hint">(no password)</span>
+        </label>
+      </div>
+    </div>
+
     <!-- Password Section -->
+    {#if !noPasswordRequired}
     <div class="form-section">
       <label class="section-label">Password</label>
 
@@ -279,6 +305,7 @@
         {/if}
       </div>
     </div>
+    {/if}
 
     <!-- TOTP Section -->
     <div class="form-section">
@@ -321,6 +348,7 @@
     </div>
 
     <!-- Expiry Section -->
+    {#if !noPasswordRequired}
     <div class="form-section">
       <label class="section-label">Password Expiry</label>
 
@@ -349,6 +377,7 @@
         </div>
       {/if}
     </div>
+    {/if}
 
     <!-- Additional Info -->
     <div class="form-section">
@@ -461,6 +490,40 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
+  }
+
+  .type-options {
+    display: flex;
+    gap: 12px;
+  }
+
+  .type-option {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--text-secondary, rgba(255, 255, 255, 0.7));
+    cursor: pointer;
+    padding: 8px 12px;
+    background: var(--bg-input, rgba(0, 0, 0, 0.2));
+    border: 1px solid var(--border-primary, rgba(255, 255, 255, 0.08));
+    border-radius: 8px;
+    transition: all 0.2s ease;
+  }
+
+  .type-option:hover {
+    background: var(--bg-hover, rgba(255, 255, 255, 0.05));
+    border-color: var(--border-primary, rgba(255, 255, 255, 0.15));
+  }
+
+  .type-option:has(input:checked) {
+    background: var(--bg-hover, rgba(255, 255, 255, 0.08));
+    border-color: var(--accent, rgba(255, 255, 255, 0.3));
+  }
+
+  .type-hint {
+    font-size: 10px;
+    color: var(--text-muted, rgba(255, 255, 255, 0.4));
   }
 
   .section-label {

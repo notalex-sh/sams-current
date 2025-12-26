@@ -1,6 +1,6 @@
 <script>
   import { createEventDispatcher } from 'svelte';
-  import { isDirty, saveDatabase, logout } from '$lib/stores/database';
+  import { isDirty, saveDatabase, logout, theme } from '$lib/stores/database';
 
   const dispatch = createEventDispatcher();
 
@@ -78,6 +78,26 @@
 
       <!-- Right Actions -->
       <div class="nav-right">
+        <button class="theme-btn" on:click={theme.toggle} title="Toggle theme">
+          {#if $theme === 'dark'}
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="5"/>
+              <line x1="12" y1="1" x2="12" y2="3"/>
+              <line x1="12" y1="21" x2="12" y2="23"/>
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+              <line x1="1" y1="12" x2="3" y2="12"/>
+              <line x1="21" y1="12" x2="23" y2="12"/>
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+            </svg>
+          {:else}
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+            </svg>
+          {/if}
+        </button>
+
         <div class="keyboard-hint">
           <kbd>Ctrl</kbd>
           <span>+</span>
@@ -99,12 +119,32 @@
 
 <style>
   .cyber-navbar {
-    background: rgba(0, 0, 0, 0.8);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    background: var(--bg-tertiary, rgba(0, 0, 0, 0.8));
+    border-bottom: 1px solid var(--border-secondary, rgba(255, 255, 255, 0.06));
     backdrop-filter: blur(12px);
     position: sticky;
     top: 0;
     z-index: 30;
+  }
+
+  .theme-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    background: var(--bg-hover, rgba(255, 255, 255, 0.05));
+    border: 1px solid var(--border-primary, rgba(255, 255, 255, 0.1));
+    border-radius: 6px;
+    color: var(--text-muted, rgba(255, 255, 255, 0.5));
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .theme-btn:hover {
+    background: var(--bg-secondary, rgba(255, 255, 255, 0.1));
+    color: var(--text-primary, white);
+    border-color: var(--border-primary, rgba(255, 255, 255, 0.2));
   }
 
   .navbar-content {
@@ -130,15 +170,15 @@
     border-radius: 6px;
     font-size: 12px;
     font-weight: 500;
-    color: rgba(255, 255, 255, 0.45);
+    color: var(--text-muted, rgba(255, 255, 255, 0.45));
     cursor: pointer;
     transition: all 0.2s ease;
   }
 
   .nav-btn:hover:not(:disabled) {
-    color: rgba(255, 255, 255, 0.9);
-    background: rgba(255, 255, 255, 0.06);
-    border-color: rgba(255, 255, 255, 0.1);
+    color: var(--text-primary, rgba(255, 255, 255, 0.9));
+    background: var(--bg-hover, rgba(255, 255, 255, 0.06));
+    border-color: var(--border-primary, rgba(255, 255, 255, 0.1));
   }
 
   .nav-btn:disabled {
@@ -147,23 +187,22 @@
   }
 
   .nav-btn.save-active {
-    color: rgba(255, 255, 255, 0.95);
-    background: rgba(255, 255, 255, 0.08);
-    border-color: rgba(255, 255, 255, 0.15);
+    color: var(--text-primary, rgba(255, 255, 255, 0.95));
+    background: var(--bg-hover, rgba(255, 255, 255, 0.08));
+    border-color: var(--border-primary, rgba(255, 255, 255, 0.15));
   }
 
   .nav-btn.save-active:hover {
-    background: rgba(255, 255, 255, 0.12);
-    border-color: rgba(255, 255, 255, 0.2);
-    box-shadow: 0 0 15px rgba(255, 255, 255, 0.05);
+    background: var(--bg-secondary, rgba(255, 255, 255, 0.12));
+    border-color: var(--border-primary, rgba(255, 255, 255, 0.2));
   }
 
   .save-dot {
     width: 5px;
     height: 5px;
     border-radius: 50%;
-    background: #ffffff;
-    box-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
+    background: var(--accent, #ffffff);
+    box-shadow: 0 0 8px var(--accent-muted, rgba(255, 255, 255, 0.6));
     animation: pulse 2s ease-in-out infinite;
   }
 
@@ -178,7 +217,7 @@
     align-items: center;
     gap: 4px;
     font-size: 10px;
-    color: rgba(255, 255, 255, 0.25);
+    color: var(--text-muted, rgba(255, 255, 255, 0.25));
   }
 
   @media (min-width: 640px) {
@@ -189,11 +228,11 @@
 
   .keyboard-hint kbd {
     padding: 2px 6px;
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: var(--bg-hover, rgba(255, 255, 255, 0.03));
+    border: 1px solid var(--border-primary, rgba(255, 255, 255, 0.1));
     border-radius: 4px;
     font-size: 10px;
-    color: rgba(255, 255, 255, 0.4);
+    color: var(--text-muted, rgba(255, 255, 255, 0.4));
   }
 
   .logout-btn {
@@ -201,21 +240,20 @@
     align-items: center;
     gap: 6px;
     padding: 8px 14px;
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: var(--bg-hover, rgba(255, 255, 255, 0.03));
+    border: 1px solid var(--border-primary, rgba(255, 255, 255, 0.1));
     border-radius: 6px;
     font-size: 12px;
     font-weight: 500;
-    color: rgba(255, 255, 255, 0.5);
+    color: var(--text-muted, rgba(255, 255, 255, 0.5));
     cursor: pointer;
     transition: all 0.2s ease;
   }
 
   .logout-btn:hover {
-    background: rgba(255, 255, 255, 0.08);
-    border-color: rgba(255, 255, 255, 0.2);
-    color: rgba(255, 255, 255, 0.8);
-    box-shadow: 0 0 15px rgba(255, 255, 255, 0.03);
+    background: var(--bg-secondary, rgba(255, 255, 255, 0.08));
+    border-color: var(--border-primary, rgba(255, 255, 255, 0.2));
+    color: var(--text-secondary, rgba(255, 255, 255, 0.8));
   }
 
   @keyframes pulse {

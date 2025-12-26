@@ -1,6 +1,33 @@
 import { writable, derived, get } from 'svelte/store';
 import { encryptData, decryptData } from '$lib/utils/encryption';
 import { addDays, differenceInDays, isAfter } from 'date-fns';
+import { browser } from '$app/environment';
+
+/*
+ * Theme store with localStorage persistence.
+ * Defaults to 'dark' if no preference is saved.
+ */
+function createThemeStore() {
+  const stored = browser ? localStorage.getItem('sams-theme') : null;
+  const { subscribe, set, update } = writable(stored || 'dark');
+
+  return {
+    subscribe,
+    toggle: () => {
+      update(current => {
+        const next = current === 'dark' ? 'light' : 'dark';
+        if (browser) localStorage.setItem('sams-theme', next);
+        return next;
+      });
+    },
+    set: (value) => {
+      if (browser) localStorage.setItem('sams-theme', value);
+      set(value);
+    }
+  };
+}
+
+export const theme = createThemeStore();
 
 export const isAuthenticated = writable(false);
 export const currentDatabase = writable(null);
@@ -138,7 +165,9 @@ export function addEntry(entry) {
       passwordSetDate: entry.password ? new Date().toISOString() : null,
       expiryDays: entry.expiryDays ?? 0,
       hasPassword: !!(entry.username || entry.password),
-      totpSecret: entry.totpSecret || null
+      totpSecret: entry.totpSecret || null,
+      isSSO: entry.isSSO || false,
+      isApplication: entry.isApplication || false
     };
     isDirty.set(true);
     return [...items, newEntry];
@@ -240,7 +269,9 @@ export async function loadDatabase(file, password) {
       passwordSetDate: entry.passwordSetDate || (entry.password ? entry.createdAt : null),
       expiryDays: entry.expiryDays ?? 90,
       hasPassword: !!(entry.username || entry.password),
-      totpSecret: entry.totpSecret || null
+      totpSecret: entry.totpSecret || null,
+      isSSO: entry.isSSO || false,
+      isApplication: entry.isApplication || false
     }));
 
     entries.set(normalizedEntries);

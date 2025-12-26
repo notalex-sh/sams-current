@@ -18,6 +18,8 @@
 
   $: expiryStatus = calculateExpiryStatus(entry);
   $: hasTotpSecret = !!entry.totpSecret;
+  $: isSSO = entry.isSSO || false;
+  $: isApplication = entry.isApplication || false;
 
   /*
    * Prepends https:// to URLs that don't have a protocol.
@@ -82,6 +84,8 @@
       _editExpiryWeeks: Math.floor((entry.expiryDays || 0) / 7),
       _editExpiryDays: (entry.expiryDays || 0) % 7,
       _tagsString: entry.tags ? entry.tags.join(', ') : '',
+      isSSO: entry.isSSO || false,
+      isApplication: entry.isApplication || false
     };
     isEditing = true;
     showEditPassword = false;
@@ -166,6 +170,18 @@
           <div class="entry-url">{entry.url}</div>
         {/if}
       </div>
+
+      <!-- Type Badges -->
+      {#if isSSO || isApplication}
+        <div class="type-badges">
+          {#if isSSO}
+            <span class="type-badge sso">SSO</span>
+          {/if}
+          {#if isApplication}
+            <span class="type-badge app">APP</span>
+          {/if}
+        </div>
+      {/if}
 
       <!-- Tags -->
       {#if entry.tags && entry.tags.length > 0}
@@ -294,6 +310,19 @@
       <input type="url" bind:value={editData.url} placeholder="URL" class="edit-input" />
       <input type="text" bind:value={editData.username} placeholder="Username" class="edit-input" />
 
+      <!-- Entry Type -->
+      <div class="type-edit-row">
+        <label class="type-edit-option">
+          <input type="checkbox" bind:checked={editData.isSSO} class="mono-checkbox" />
+          <span>SSO</span>
+        </label>
+        <label class="type-edit-option">
+          <input type="checkbox" bind:checked={editData.isApplication} class="mono-checkbox" />
+          <span>Application</span>
+        </label>
+      </div>
+
+      {#if !editData.isSSO && !editData.isApplication}
       <div class="password-edit-row">
         {#if showEditPassword}
           <input
@@ -314,6 +343,7 @@
           {showEditPassword ? 'Hide' : 'Show'}
         </button>
       </div>
+      {/if}
 
       <!-- TOTP Secret -->
       <div class="totp-edit-section">
@@ -340,6 +370,7 @@
         <p class="totp-hint">Enter the Base32 secret from your authenticator setup</p>
       </div>
 
+      {#if !editData.isSSO && !editData.isApplication}
       <div class="expiry-edit">
         <label class="checkbox-label">
           <input type="checkbox" bind:checked={editData._neverExpire} class="mono-checkbox" />
@@ -354,6 +385,7 @@
           </div>
         {/if}
       </div>
+      {/if}
 
       <input type="url" bind:value={editData.docsUrl} placeholder="Documentation URL" class="edit-input" />
       <input type="text" bind:value={editData._tagsString} placeholder="Tags (comma separated)" class="edit-input" />
@@ -467,6 +499,33 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+  }
+
+  .type-badges {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 12px;
+  }
+
+  .type-badge {
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    padding: 3px 8px;
+    border-radius: 4px;
+    text-transform: uppercase;
+  }
+
+  .type-badge.sso {
+    background: var(--bg-hover, rgba(255, 255, 255, 0.1));
+    color: var(--text-secondary, rgba(255, 255, 255, 0.8));
+    border: 1px solid var(--border-primary, rgba(255, 255, 255, 0.2));
+  }
+
+  .type-badge.app {
+    background: var(--bg-hover, rgba(255, 255, 255, 0.1));
+    color: var(--text-secondary, rgba(255, 255, 255, 0.8));
+    border: 1px solid var(--border-primary, rgba(255, 255, 255, 0.2));
   }
 
   .tags-container {
@@ -694,6 +753,20 @@
   .totp-edit-row {
     display: flex;
     gap: 8px;
+  }
+
+  .type-edit-row {
+    display: flex;
+    gap: 12px;
+  }
+
+  .type-edit-option {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--text-secondary, rgba(255, 255, 255, 0.7));
+    cursor: pointer;
   }
 
   .totp-edit-section {
