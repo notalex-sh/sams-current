@@ -426,8 +426,8 @@
 
 <style>
   .form-card {
-    background: rgba(24, 24, 27, 0.8);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: var(--bg-secondary, rgba(24, 24, 27, 0.8));
+    border: 1px solid var(--border-primary, rgba(255, 255, 255, 0.08));
     border-radius: 16px;
     display: flex;
     flex-direction: column;
@@ -439,7 +439,7 @@
     align-items: center;
     justify-content: space-between;
     padding: 16px 20px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    border-bottom: 1px solid var(--border-secondary, rgba(255, 255, 255, 0.06));
     flex-shrink: 0;
   }
 
@@ -447,7 +447,7 @@
     font-size: 14px;
     font-weight: 600;
     letter-spacing: 0.05em;
-    color: white;
+    color: var(--text-primary, white);
     margin: 0;
     text-transform: uppercase;
   }
@@ -458,9 +458,9 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(255, 255, 255, 0.05);
+    background: var(--bg-hover, rgba(255, 255, 255, 0.05));
     border-radius: 8px;
-    color: rgba(255, 255, 255, 0.4);
+    color: var(--text-muted, rgba(255, 255, 255, 0.4));
   }
 
   .form-body {
@@ -533,29 +533,29 @@
     font-size: 11px;
     font-weight: 600;
     letter-spacing: 0.1em;
-    color: rgba(255, 255, 255, 0.4);
+    color: var(--text-muted, rgba(255, 255, 255, 0.4));
     text-transform: uppercase;
   }
 
   .form-input {
     width: 100%;
-    background: rgba(0, 0, 0, 0.3);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: var(--bg-input, rgba(0, 0, 0, 0.3));
+    border: 1px solid var(--border-primary, rgba(255, 255, 255, 0.08));
     border-radius: 8px;
     padding: 10px 14px;
     font-size: 13px;
-    color: white;
+    color: var(--text-primary, white);
     transition: all 0.2s ease;
   }
 
   .form-input:focus {
     outline: none;
-    background: rgba(255, 255, 255, 0.06);
-    border-color: rgba(255, 255, 255, 0.2);
+    background: var(--bg-hover, rgba(255, 255, 255, 0.06));
+    border-color: var(--border-primary, rgba(255, 255, 255, 0.2));
   }
 
   .form-input::placeholder {
-    color: rgba(255, 255, 255, 0.25);
+    color: var(--text-muted, rgba(255, 255, 255, 0.25));
   }
 
   /* Warning Box */

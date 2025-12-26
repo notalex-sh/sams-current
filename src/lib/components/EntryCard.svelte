@@ -405,8 +405,8 @@
 
 <style>
   .entry-card {
-    background: rgba(24, 24, 27, 0.8);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: var(--bg-secondary, rgba(24, 24, 27, 0.8));
+    border: 1px solid var(--border-primary, rgba(255, 255, 255, 0.08));
     border-radius: 16px;
     padding: 20px;
     position: relative;
@@ -414,10 +414,10 @@
   }
 
   .entry-card:hover {
-    border-color: rgba(255, 255, 255, 0.15);
-    background: rgba(24, 24, 27, 0.95);
+    border-color: var(--border-primary, rgba(255, 255, 255, 0.15));
+    background: var(--bg-tertiary, rgba(24, 24, 27, 0.95));
     transform: translateY(-2px);
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
   }
 
   .action-buttons {
@@ -441,23 +441,23 @@
     align-items: center;
     justify-content: center;
     border-radius: 8px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    background: rgba(255, 255, 255, 0.05);
-    color: rgba(255, 255, 255, 0.6);
+    border: 1px solid var(--border-primary, rgba(255, 255, 255, 0.1));
+    background: var(--bg-hover, rgba(255, 255, 255, 0.05));
+    color: var(--text-muted, rgba(255, 255, 255, 0.6));
     cursor: pointer;
     transition: all 0.2s ease;
   }
 
   .action-btn.edit:hover {
-    background: rgba(255, 255, 255, 0.1);
-    color: white;
-    border-color: rgba(255, 255, 255, 0.2);
+    background: var(--bg-secondary, rgba(255, 255, 255, 0.1));
+    color: var(--text-primary, white);
+    border-color: var(--border-primary, rgba(255, 255, 255, 0.2));
   }
 
   .action-btn.delete:hover {
-    background: rgba(255, 255, 255, 0.15);
-    color: white;
-    border-color: rgba(255, 255, 255, 0.3);
+    background: var(--bg-secondary, rgba(255, 255, 255, 0.15));
+    color: var(--text-primary, white);
+    border-color: var(--border-primary, rgba(255, 255, 255, 0.3));
   }
 
   .entry-content {
@@ -471,12 +471,12 @@
   .entry-title {
     font-size: 16px;
     font-weight: 600;
-    color: white;
+    color: var(--text-primary, white);
     margin: 0;
   }
 
   .title-link {
-    color: white;
+    color: var(--text-primary, white);
     text-decoration: none;
     display: inline-flex;
     align-items: center;
@@ -485,7 +485,7 @@
   }
 
   .title-link:hover {
-    color: rgba(255, 255, 255, 0.7);
+    color: var(--text-secondary, rgba(255, 255, 255, 0.7));
   }
 
   .external-icon {
@@ -494,7 +494,7 @@
 
   .entry-url {
     font-size: 12px;
-    color: rgba(255, 255, 255, 0.3);
+    color: var(--text-muted, rgba(255, 255, 255, 0.3));
     margin-top: 4px;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -538,14 +538,14 @@
   .tag {
     font-size: 11px;
     padding: 4px 10px;
-    background: rgba(255, 255, 255, 0.08);
+    background: var(--bg-hover, rgba(255, 255, 255, 0.08));
     border-radius: 20px;
-    color: rgba(255, 255, 255, 0.7);
+    color: var(--text-secondary, rgba(255, 255, 255, 0.7));
   }
 
   .entry-notes {
     font-size: 13px;
-    color: rgba(255, 255, 255, 0.5);
+    color: var(--text-muted, rgba(255, 255, 255, 0.5));
     margin-bottom: 12px;
     line-height: 1.5;
   }
@@ -555,18 +555,18 @@
     align-items: center;
     gap: 6px;
     font-size: 12px;
-    color: rgba(255, 255, 255, 0.4);
+    color: var(--text-muted, rgba(255, 255, 255, 0.4));
     text-decoration: none;
     margin-bottom: 12px;
     transition: color 0.2s ease;
   }
 
   .docs-link:hover {
-    color: white;
+    color: var(--text-primary, white);
   }
 
   .credentials-section {
-    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    border-top: 1px solid var(--border-secondary, rgba(255, 255, 255, 0.08));
     padding-top: 16px;
     margin-top: 16px;
   }
@@ -651,7 +651,7 @@
     font-size: 10px;
     font-weight: 600;
     letter-spacing: 0.1em;
-    color: rgba(255, 255, 255, 0.3);
+    color: var(--text-muted, rgba(255, 255, 255, 0.3));
     width: 40px;
     flex-shrink: 0;
   }
@@ -659,7 +659,7 @@
   .credential-value {
     flex: 1;
     font-size: 14px;
-    color: rgba(255, 255, 255, 0.8);
+    color: var(--text-secondary, rgba(255, 255, 255, 0.8));
   }
 
   .password-field {
@@ -668,28 +668,28 @@
 
   .password-input {
     width: 100%;
-    background: rgba(0, 0, 0, 0.3);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: var(--bg-input, rgba(0, 0, 0, 0.3));
+    border: 1px solid var(--border-primary, rgba(255, 255, 255, 0.08));
     border-radius: 6px;
     padding: 8px 12px;
     font-size: 13px;
-    color: rgba(255, 255, 255, 0.8);
+    color: var(--text-secondary, rgba(255, 255, 255, 0.8));
   }
 
   .toggle-btn {
     font-size: 11px;
     padding: 6px 12px;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: var(--bg-hover, rgba(255, 255, 255, 0.05));
+    border: 1px solid var(--border-primary, rgba(255, 255, 255, 0.1));
     border-radius: 6px;
-    color: rgba(255, 255, 255, 0.6);
+    color: var(--text-muted, rgba(255, 255, 255, 0.6));
     cursor: pointer;
     transition: all 0.2s ease;
   }
 
   .toggle-btn:hover {
-    background: rgba(255, 255, 255, 0.1);
-    color: white;
+    background: var(--bg-secondary, rgba(255, 255, 255, 0.1));
+    color: var(--text-primary, white);
   }
 
   .copy-btn {
@@ -698,22 +698,22 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: var(--bg-hover, rgba(255, 255, 255, 0.05));
+    border: 1px solid var(--border-primary, rgba(255, 255, 255, 0.1));
     border-radius: 6px;
-    color: rgba(255, 255, 255, 0.5);
+    color: var(--text-muted, rgba(255, 255, 255, 0.5));
     cursor: pointer;
     transition: all 0.2s ease;
   }
 
   .copy-btn:hover {
-    background: rgba(255, 255, 255, 0.1);
-    color: white;
+    background: var(--bg-secondary, rgba(255, 255, 255, 0.1));
+    color: var(--text-primary, white);
   }
 
   .entry-meta {
     font-size: 11px;
-    color: rgba(255, 255, 255, 0.2);
+    color: var(--text-muted, rgba(255, 255, 255, 0.2));
     margin-top: 16px;
   }
 
